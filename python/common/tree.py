@@ -53,3 +53,8 @@ def init_tree_from_array(array: list) -> Optional[TreeNode]:
         insert(head, array[i])
         
     return head
+
+def swap(first: TreeNode, second: TreeNode):
+    buffer = first.val
+    first.val = second.val
+    second.val = buffer
