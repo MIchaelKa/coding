@@ -2,9 +2,7 @@ from __future__ import annotations
 from collections import defaultdict, deque
 
 # TODO: write a func to validate graph
-def init_grapth_1():
-    g = Graph()
-
+def init_grapth_1(g: Graph) -> Graph:
     g.insert_edge(1,7)
     g.insert_edge(1,2)
     
@@ -26,9 +24,7 @@ def init_grapth_1():
     
     return g
 
-def init_grapth_2():
-    g = Graph()
-
+def init_grapth_2(g: Graph) -> Graph:
     g.insert_edge(1,2)
     g.insert_edge(1,7)
     g.insert_edge(1,8)
@@ -59,6 +55,14 @@ def init_grapth_2():
     
     return g
 
+from enum import Enum
+
+class Edge(Enum):
+    TREE = 1
+    BACK = 2
+    FORWARD = 3
+    CROSS = 4
+
 class Graph:
     def __init__(self):
         self.edges = defaultdict(list)
@@ -85,7 +89,6 @@ class Graph:
         Args:
             start (int): The vertex to start with (Root vertex).
         """
-        self.num_edges = 0
         
         # num_vertices = len(self.edges.keys())
         num_vertices = 10
@@ -122,18 +125,10 @@ class Graph:
         print(f"process_vertex_early: {vertex}")
     
     def process_vertex_late(self, vertex: int) -> None:
-        print(f"process_vertex_late: {vertex}")
-        print("")
+        print(f"process_vertex_late: {vertex}\n")
     
     def process_edge(self, x: int, y: int) -> None:
         print(f"process_edge: {x}-{y}")
-
-        # BFS: counting edges
-        # self.num_edges += 1
-
-        # DFS: detecting cycles
-        if self.parent[y] != x:
-            print("cycle detected")
 
     def find_path(self, start: int, end: int) -> list[int]:
         """
@@ -194,10 +189,75 @@ class Graph:
         self.exit_time[v] = self.time
         self.processed[v] = True
 
-if __name__ == '__main__':
-    g = init_grapth_2()
-    # g.bfs(g.get_root())
+    def edge_classification(self, x: int, y: int) -> Edge:
+        if self.parent[y] == x:
+            return Edge.TREE
+        
+        # VS self.parent[x] == y
+        # Если это родитель проверяемой вершины - мы не должны обрабатывать
+        # такое ребро, так как это будет во второй раз
+        # такой ситуации не должно быть в этом методе
+        
+        if self.discovered[y] and not self.processed[y]:
+            return Edge.BACK
+
+
+
+#
+# GraphCountEdges
+# 
+
+class GraphCountEdges(Graph):
+    def __init__(self):
+        super().__init__()
+        self.num_edges = 0
+
+    def process_edge(self, x: int, y: int) -> None:
+        super().process_edge(x, y)
+        self.num_edges += 1
+
+def count_edges():
+    g = init_grapth_2(GraphCountEdges)
+    
+    g.bfs(g.get_root())
+    # g.dfs(g.get_root()) # also works
+
+    print(g.num_edges)
+
+#
+# GraphCycleDetector
+# 
+    
+class GraphCycleDetector(Graph):
+    def process_edge(self, x: int, y: int) -> None:
+        super().process_edge(x, y)
+        if self.parent[y] != x:
+            print("cycle detected")
+
+def detect_cycles():
+    g = init_grapth_2(GraphCycleDetector)
     g.dfs(g.get_root())
+
+
+#
+# GraphArticulationVDetector
+# 
+    
+class GraphArticulationVDetector(Graph):
+    def process_edge(self, x: int, y: int) -> None:
+        super().process_edge(x, y)
+        
+        edge = self.edge_classification(x, y)
+        print(edge)
+
+def articulation_vertices():
+    g = init_grapth_2(GraphArticulationVDetector())
+    g.dfs(g.get_root())
+
     print(g.parent)
     print(g.entry_time)
     print(g.exit_time)
+
+if __name__ == '__main__':
+    articulation_vertices()
+
