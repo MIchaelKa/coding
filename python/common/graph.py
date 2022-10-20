@@ -55,6 +55,27 @@ def init_grapth_2(g: Graph) -> Graph:
     
     return g
 
+def init_directed_acyclic_grapth(g: Graph) -> Graph: # DAG
+    g.directed = True
+
+    g.insert_edge(1,2)
+    g.insert_edge(1,7)
+
+    g.insert_edge(2,3)
+    g.insert_edge(2,4)
+
+    g.insert_edge(3,4)
+    g.insert_edge(3,5)
+
+    g.insert_edge(4,6)
+    g.insert_edge(4,7)
+
+    g.insert_edge(6,5)
+
+    g.insert_edge(7,6)
+    
+    return g
+
 from enum import Enum
 
 class Edge(Enum):
@@ -117,7 +138,7 @@ class Graph:
                     self.process_edge(vertex, y)
                 
                 if not discovered[y]:
-                    queue.append(y)
+                    queue.append(y)  # what about += and add all vertices at one time?
                     discovered[y] = True
                     self.parent[y] = vertex
                     
@@ -182,8 +203,8 @@ class Graph:
                 self.parent[y] = v
                 self.process_edge(v, y) # Edge.TREE
                 self.dfs_helper(y)
-            elif not self.processed[y] and self.parent[v] != y: # TODO: add check self.directed 
-                self.process_edge(v, y) # Can we tell this is Edge.BACK?
+            elif (not self.processed[y] and self.parent[v] != y) or self.directed:
+                self.process_edge(v, y) # Can we tell this is Edge.BACK?(for undirected)
 
         self.process_vertex_late(v)
         self.time += 1
@@ -208,6 +229,12 @@ class Graph:
         
         if self.discovered[y] and not self.processed[y]: # Do we really need self.processed[y] check for DFS?
             return Edge.BACK
+        
+        if self.processed[y] and self.entry_time[x] < self.entry_time[y]:
+            return Edge.FORWARD
+        
+        if self.processed[y] and self.entry_time[x] > self.entry_time[y]:
+            return Edge.CROSS # VS BACK? only time of discovering? can be on the same level in the tree
 
 
 #
@@ -255,7 +282,6 @@ class GraphArticulationVDetector(Graph):
         super().__init__()
         self.reachable_ancestor = [-1] * self.max_num_vertices # most reachable
         self.tree_out_degree = [0] * self.max_num_vertices # количество листьев
-        self.verbose = False
 
     def process_vertex_early(self, vertex: int) -> None:
         super().process_vertex_early(vertex)
@@ -306,12 +332,44 @@ class GraphArticulationVDetector(Graph):
 
 def articulation_vertices():
     g = init_grapth_2(GraphArticulationVDetector())
+    g.verbose = False
     g.dfs(g.get_root())
 
     print(g.parent)
     print(g.entry_time)
     print(g.exit_time)
 
+
+#
+# GraphArticulationVDetector
+# 
+
+class DAG(Graph):
+    def __init__(self):
+        super().__init__()
+        self.directed = True
+        self.sorted = []
+
+    def process_vertex_late(self, v: int) -> None:
+        self.sorted.append(v)
+        super().process_vertex_late(v)
+
+    def process_edge(self, x: int, y: int) -> None:
+        super().process_edge(x, y)
+
+        edge = self.edge_classification(x, y)
+        if edge == Edge.BACK:
+            print("[WARNING] Graph is not acyclic, back edge(cycle) found!")
+
+    
+
+def top_sorting():
+    g = init_directed_acyclic_grapth(DAG())
+    g.verbose = True
+    g.dfs(g.get_root())
+
+    print(g.sorted[::-1])
+
 if __name__ == '__main__':
-    articulation_vertices()
+    top_sorting()
 
