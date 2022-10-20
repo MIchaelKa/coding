@@ -67,6 +67,11 @@ class Graph:
     def __init__(self):
         self.edges = defaultdict(list)
         self.directed = False
+
+        # num_vertices = len(self.edges.keys())
+        self.max_num_vertices = 10
+
+        self.verbose = True
         
     def insert_edge(self, x: int, y: int) -> None:
         self.edges[x].append(y)
@@ -90,12 +95,9 @@ class Graph:
             start (int): The vertex to start with (Root vertex).
         """
         
-        # num_vertices = len(self.edges.keys())
-        num_vertices = 10
-        
-        processed = [False] * num_vertices
-        discovered = [False] * num_vertices
-        self.parent = [-1] * num_vertices
+        processed = [False] * self.max_num_vertices
+        discovered = [False] * self.max_num_vertices
+        self.parent = [-1] * self.max_num_vertices
         
         queue = deque()
         
@@ -122,13 +124,16 @@ class Graph:
             self.process_vertex_late(vertex)
         
     def process_vertex_early(self, vertex: int) -> None:
-        print(f"process_vertex_early: {vertex}")
+        if self.verbose:
+            print(f"process_vertex_early: {vertex}")
     
     def process_vertex_late(self, vertex: int) -> None:
-        print(f"process_vertex_late: {vertex}\n")
+        if self.verbose:
+            print(f"process_vertex_late: {vertex}\n")
     
     def process_edge(self, x: int, y: int) -> None:
-        print(f"process_edge: {x}-{y}")
+        if self.verbose:
+            print(f"process_edge: {x}-{y}")
 
     def find_path(self, start: int, end: int) -> list[int]:
         """
@@ -151,14 +156,11 @@ class Graph:
     
 
     def dfs(self, start: int) -> None:
-        # num_vertices = len(self.edges.keys())
-        num_vertices = 10
-
-        self.parent = [-1] * num_vertices
-        self.discovered = [False] * num_vertices
-        self.processed = [False] * num_vertices
-        self.entry_time = [-1] * num_vertices
-        self.exit_time = [-1] * num_vertices
+        self.parent = [-1] * self.max_num_vertices
+        self.discovered = [False] * self.max_num_vertices
+        self.processed = [False] * self.max_num_vertices
+        self.entry_time = [-1] * self.max_num_vertices
+        self.exit_time = [-1] * self.max_num_vertices
 
         self.time = 0
 
@@ -178,11 +180,10 @@ class Graph:
         for y in vertex_edges:
             if not self.discovered[y]:
                 self.parent[y] = v
-                self.process_edge(v, y)
+                self.process_edge(v, y) # Edge.TREE
                 self.dfs_helper(y)
             elif not self.processed[y] and self.parent[v] != y: # TODO: add check self.directed 
-                # Can we tell this is a back edge?
-                self.process_edge(v, y)
+                self.process_edge(v, y) # Can we tell this is Edge.BACK?
 
         self.process_vertex_late(v)
         self.time += 1
@@ -190,17 +191,23 @@ class Graph:
         self.processed[v] = True
 
     def edge_classification(self, x: int, y: int) -> Edge:
+        """
+        Should be called from process_edge method
+        """
+
+        # проверяем родителя вершины назначения
         if self.parent[y] == x:
             return Edge.TREE
         
-        # VS self.parent[x] == y
+        # проверка вершины отправления
+        # self.parent[x] == y
         # Если это родитель проверяемой вершины - мы не должны обрабатывать
         # такое ребро, так как это будет во второй раз
         # такой ситуации не должно быть в этом методе
+        # self.parent[x] != y всегда в этом месте
         
-        if self.discovered[y] and not self.processed[y]:
+        if self.discovered[y] and not self.processed[y]: # Do we really need self.processed[y] check for DFS?
             return Edge.BACK
-
 
 
 #
@@ -227,7 +234,7 @@ def count_edges():
 #
 # GraphCycleDetector
 # 
-    
+
 class GraphCycleDetector(Graph):
     def process_edge(self, x: int, y: int) -> None:
         super().process_edge(x, y)
@@ -242,13 +249,60 @@ def detect_cycles():
 #
 # GraphArticulationVDetector
 # 
-    
+
 class GraphArticulationVDetector(Graph):
+    def __init__(self):
+        super().__init__()
+        self.reachable_ancestor = [-1] * self.max_num_vertices # most reachable
+        self.tree_out_degree = [0] * self.max_num_vertices # количество листьев
+        self.verbose = False
+
+    def process_vertex_early(self, vertex: int) -> None:
+        super().process_vertex_early(vertex)
+        self.reachable_ancestor[vertex] = vertex
+
+    def process_vertex_late(self, vertex: int) -> None:
+
+        if self.parent[vertex] == -1: # root
+            if self.tree_out_degree[vertex] > 1:
+                print(f"root articulation vertex: {vertex} ")
+            return
+
+        if self.parent[self.parent[vertex]] != -1: # if parent is not root
+
+            if self.reachable_ancestor[vertex] == self.parent[vertex]:
+                print(f"parent articulation vertex: {self.parent[vertex]} ")
+
+            if self.reachable_ancestor[vertex] == vertex:
+                print(f"bridge articulation vertex - parent: {self.parent[vertex]} ")
+
+                if self.tree_out_degree[vertex] > 0:
+                    print(f"bridge articulation vertex - self: {vertex} ")
+
+        time_vertex = self.entry_time[self.reachable_ancestor[vertex]]
+        time_parent = self.entry_time[self.reachable_ancestor[self.parent[vertex]]]
+
+        if time_vertex < time_parent:
+            self.reachable_ancestor[self.parent[vertex]] = self.reachable_ancestor[vertex]
+            if self.verbose:
+                print(f"update parent reachable ancestor: {self.parent[vertex]} <- {vertex} : {self.reachable_ancestor[vertex]}")
+
+        super().process_vertex_late(vertex)
+
     def process_edge(self, x: int, y: int) -> None:
         super().process_edge(x, y)
         
         edge = self.edge_classification(x, y)
-        print(edge)
+
+        if edge == Edge.TREE:
+            self.tree_out_degree[x] += 1
+
+        if edge == Edge.BACK: # and parent[x] != y должно уже выполняться
+            if self.entry_time[y] < self.entry_time[self.reachable_ancestor[x]]:
+                    self.reachable_ancestor[x] = y
+
+        if self.verbose:
+            print(edge)
 
 def articulation_vertices():
     g = init_grapth_2(GraphArticulationVDetector())
