@@ -9,15 +9,30 @@ class TreeNode:
     def show(self):
         for i in self.items():
             print(i, end=" ")
+        print("")
             
     def items(self):
         if self.left is not None:
-            yield from self.left.items()    
+            yield from self.left.items()
             
-        yield self.val   
+        yield self.val
         
         if self.right is not None:
             yield from self.right.items()
+
+    def show_pre_order(self):
+        for i in self.items_pre_order():
+            print(i, end=" ")
+        print("")
+
+    def items_pre_order(self):
+        yield self.val
+
+        if self.left is not None:
+            yield from self.left.items_pre_order()
+        
+        if self.right is not None:
+            yield from self.right.items_pre_order()
             
     def __iter__(self):
         return self.items()
@@ -58,3 +73,10 @@ def swap(first: TreeNode, second: TreeNode):
     buffer = first.val
     first.val = second.val
     second.val = buffer
+
+
+if __name__ == '__main__':
+    tree = init_tree_from_array([5,9,1,45,3,2,12,7,13])
+    tree.show()
+    tree.show_pre_order()
+    
