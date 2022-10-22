@@ -55,7 +55,7 @@ def init_grapth_2(g: Graph) -> Graph:
     
     return g
 
-def init_directed_acyclic_grapth(g: Graph) -> Graph: # DAG
+def init_directed_acyclic_grapth(g: Graph) -> Graph:
     g.directed = True
 
     g.insert_edge(1,2)
@@ -73,6 +73,25 @@ def init_directed_acyclic_grapth(g: Graph) -> Graph: # DAG
     g.insert_edge(6,5)
 
     g.insert_edge(7,6)
+    
+    return g
+
+def init_directed_acyclic_grapth_2(g: Graph) -> Graph:
+    g.directed = True
+
+    g.insert_edge(1,2)
+    g.insert_edge(1,3)
+
+    g.insert_edge(2,5)
+
+    g.insert_edge(3,2)
+    g.insert_edge(3,4)
+
+    # g.insert_edge(4,2)
+    g.insert_edge(4,5)
+
+    g.insert_edge(5,6)
+    g.insert_edge(5,7)
     
     return g
 
@@ -341,7 +360,7 @@ def articulation_vertices():
 
 
 #
-# GraphArticulationVDetector
+# Directed Acyclic Graph
 # 
 
 class DAG(Graph):
@@ -364,7 +383,8 @@ class DAG(Graph):
     
 
 def top_sorting():
-    g = init_directed_acyclic_grapth(DAG())
+    # g = init_directed_acyclic_grapth(DAG())
+    g = init_directed_acyclic_grapth_2(DAG())
     g.verbose = True
     g.dfs(g.get_root())
 
