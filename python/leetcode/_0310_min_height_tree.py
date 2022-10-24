@@ -75,13 +75,13 @@ class Solution:
 
             if depth == -1:   
                 depth = int(diff / 2) + int(diff % 2 != 0) # ceil
-   
-            nodes = []
+                self.more_than_one = (diff % 2 != 0)
 
-            # if self.depth[max_1] >= depth:
+            nodes = []
+            
             nodes.extend(self.search(max_1, depth-1))
 
-            if depth == 1 and diff == 1:
+            if depth == 1 and (diff == 1 or self.more_than_one):
                 nodes.append(v)
 
             return nodes
@@ -142,6 +142,11 @@ def run_tests():
     edges = [[0,1],[0,2],[0,3],[2,4],[0,5],[5,6],[6,7],[2,8],[7,9]]
     result = solution.findMinHeightTrees(num_v, edges)
     assert(sorted(result) == [5])
+
+    num_v = 11
+    edges = [[0,1],[0,2],[2,3],[0,4],[2,5],[5,6],[3,7],[6,8],[8,9],[9,10]]
+    result = solution.findMinHeightTrees(num_v, edges)
+    assert(sorted(result) == [5,6])
 
     print("test passed")
 
