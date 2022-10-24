@@ -39,10 +39,8 @@ class Solution:
         #
         # Step 2. Perform the search for good nodes
         #
-        self.root_depth = self.depth[root]
-        init_search_depth = int(self.depth[root]/2)
         self.discovered = {}
-        return self.search(root, init_search_depth)
+        return self.search(root, -1)
 
     def search(self, v: int, depth: int) -> List[int]:
 
@@ -51,7 +49,7 @@ class Solution:
         if depth == 0:
             return [v]
 
-        max_1 = -1
+        max_1 = max_2 = -1
         max_1_depth = max_2_depth = 0
 
         for child in self.graph[v]:
@@ -60,26 +58,42 @@ class Solution:
 
             child_depth = self.depth[child]
             if child_depth > max_1_depth:
+                if max_1_depth > max_2_depth:
+                    max_2_depth = max_1_depth
+                    max_2 = max_1
                 max_1_depth = child_depth
-                max_1 = child    
+                max_1 = child     
             elif child_depth > max_2_depth:
                 max_2_depth = child_depth
+                max_2 = child
 
         if max_1_depth == max_2_depth:
             return [v]
         else:
-            nodes = self.search(max_1, depth-1)
-            if depth == 1 and self.root_depth % 2 == 0:
+            
+            if depth == -1:
+                diff = max_1_depth - max_2_depth
+                depth = int(diff / 2)
+                self.more_than_one = (diff % 2 != 0)
+                if self.more_than_one:
+                    depth += 1
+
+            nodes = []
+            if self.depth[max_1] > depth:
+                nodes.extend(self.search(max_1, depth-1))
+            if max_2 != -1 and (max_1_depth - max_2_depth == 1) and self.depth[max_2] > depth:
+                nodes.extend(self.search(max_2, depth-1))
+
+            if depth == 1 and self.more_than_one:
                 nodes.append(v)
+
             return nodes
+                
 
     def dfs(self, v: int):
 
         self.discovered[v] = True
-
         depth = 1
-        # if len(self.graph[v]) == 0:
-        #     return depth
 
         for child in self.graph[v]:
             if child not in self.discovered:
@@ -95,27 +109,50 @@ def run_tests():
     num_v = 1
     edges = []
     result = solution.findMinHeightTrees(num_v, edges)
-    print(result) 
+    assert(sorted(result) == [0]) 
 
     num_v = 4
     edges = [[1,0],[1,2],[1,3]]
     result = solution.findMinHeightTrees(num_v, edges)
-    print(result)
+    assert(sorted(result) == [1]) 
 
     num_v = 6
     edges = [[3,0],[3,1],[3,2],[3,4],[5,4]]
     result = solution.findMinHeightTrees(num_v, edges)
-    print(result)
-
-
-if __name__ == '__main__':
-
-    # run_tests()
-
-    solution = Solution()
+    assert(sorted(result) == [3,4])
 
     num_v = 5
     edges = [[0,1],[0,2],[0,3],[3,4]]
     result = solution.findMinHeightTrees(num_v, edges)
+    assert(sorted(result) == [0,3])
+
+    num_v = 8
+    edges = [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[5,7]]
+    result = solution.findMinHeightTrees(num_v, edges)
+    assert(sorted(result) == [3])
+
+    num_v = 10
+    edges = [[0,1],[0,2],[0,3],[2,4],[0,5],[5,6],[6,7],[2,8],[7,9]]
+    result = solution.findMinHeightTrees(num_v, edges)
+    assert(sorted(result) == [5])
+
+    num_v = 7
+    edges = [[0,1],[1,2],[1,3],[2,4],[3,5],[4,6]]
+    result = solution.findMinHeightTrees(num_v, edges)
+    assert(sorted(result) == [2,3])
+
+    print("test passed")
+
+
+if __name__ == '__main__':
+
+    run_tests()
+
+    solution = Solution()
+
+    num_v = 10
+    edges = [[0,1],[0,2],[0,3],[2,4],[0,5],[5,6],[6,7],[2,8],[7,9]]
+    result = solution.findMinHeightTrees(num_v, edges)
     print(result)
+
     
