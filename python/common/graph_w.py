@@ -134,8 +134,54 @@ class GraphW():
         for e in mst_edges:
             print(f"MST edge: {e.x}-{e.y} [{e.weight}]")
 
+    
+    def prim(self):
+
+        intree = [False] * (self.num_vertices + 1)
+        distance = [100] * (self.num_vertices + 1)
+        parent = [-1] * (self.num_vertices + 1)
+
+        v = 1
+
+        # stops when we will not able to update v
+        while not intree[v]:
+
+            intree[v] = True
+
+            for edge in self.edges[v]:
+                if edge.weight < distance[edge.v] and not intree[edge.v]:
+                    distance[edge.v] = edge.weight
+                    parent[edge.v] = v
+            
+            
+            # select min dist from distance array and add this vertex
+            # чтобы проверить этот массив все равно совершаем О(n) операций ?!
+            dist = 100
+            for i in range(self.num_vertices):
+                if not intree[i] and distance[i] < dist:
+                    dist = distance[i]
+                    v = i
+
+            # TODO: prints the last edge two tipes
+            print(v)
+
+        print(parent)
+
+    def find_path(self, v: int, parent: list[int]) -> list[int]:
+
+        if parent[v] == -1:
+            return [v]
+
+        path = self.find_path(parent[v], parent)
+        path.append(v)
+        return path
+
 
 if __name__ == '__main__':
     g = init_grapth_1(GraphW())
     g.verbose = False
-    g.kruscal()
+
+
+    # g.kruscal()
+
+    g.prim()
