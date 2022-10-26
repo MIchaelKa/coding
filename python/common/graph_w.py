@@ -4,7 +4,7 @@ from collections import deque
 from union_set import UnionSet
 
 def init_grapth_1(g: GraphW) -> GraphW:
-    g.num_vertices = 7
+    g.num_vertices = 7 + 1 # since we start enumerate verticies from 1
 
     g.insert_edge(1,2,weight=5)
     g.insert_edge(1,3,weight=7)
@@ -119,7 +119,7 @@ class GraphW():
 
     def kruscal(self):
 
-        union_set = UnionSet(self.num_vertices+1)
+        union_set = UnionSet(self.num_vertices)
 
         self.bfs(self.get_root())
 
@@ -137,33 +137,44 @@ class GraphW():
     
     def prim(self):
 
-        intree = [False] * (self.num_vertices + 1)
-        distance = [100] * (self.num_vertices + 1)
-        parent = [-1] * (self.num_vertices + 1)
+        intree = [False] * (self.num_vertices)
+        distance = [100] * (self.num_vertices)
+        parent = [-1] * (self.num_vertices)
 
-        v = 1
+        start = 1
+        v = start
 
         # stops when we will not able to update v
         while not intree[v]:
 
             intree[v] = True
 
+            if v != start:
+                print(f"MST edge: {parent[v]}-{v} [{dist}]")
+
+            # Операция присоединения нового ребра к MST
+            # Проверяем ребра только тут и запоминаем информацию о 
+            # самом лучшем варианте для присоединения данной вершины
             for edge in self.edges[v]:
                 if edge.weight < distance[edge.v] and not intree[edge.v]:
                     distance[edge.v] = edge.weight
+                    # Cама операция присоединения - установка родителя.
+                    # - Почему тут, ведь мы совершаем лишнюю работу?
+                    # - Потому что только тут еще есть информация о родителе,
+                    # так как мы не всегда присоединяем следующий лист с текущего v
                     parent[edge.v] = v
             
-            
-            # select min dist from distance array and add this vertex
-            # чтобы проверить этот массив все равно совершаем О(n) операций ?!
+            # Выбираем следующую вершину на присоединение.
+            # - Чтобы проверить этот массив все равно совершаем О(n) операций - проверяем все вершины ?!
+            # - Да, - иначе был бы поиск по всем ребрам О(m)!
             dist = 100
             for i in range(self.num_vertices):
                 if not intree[i] and distance[i] < dist:
                     dist = distance[i]
                     v = i
 
-            # TODO: prints the last edge two tipes
-            print(v)
+            # TODO: prints the last edge two times
+            # print(v)
 
         print(parent)
 
@@ -183,5 +194,4 @@ if __name__ == '__main__':
 
 
     # g.kruscal()
-
     g.prim()
