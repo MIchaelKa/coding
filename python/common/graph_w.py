@@ -6,17 +6,19 @@ from union_set import UnionSet
 def init_grapth_1(g: GraphW) -> GraphW:
     g.num_vertices = 7 + 1 # since we start enumerate verticies from 1
 
+    # TODO: should we remove cycles for dijkstra algorithm ?
+
     g.insert_edge(1,2,weight=5)
     g.insert_edge(1,3,weight=7)
     g.insert_edge(1,4,weight=12)
     
     
     g.insert_edge(2,1,weight=5)
-    g.insert_edge(2,3,weight=9)
+    g.insert_edge(2,3,weight=1) # 9, 1
     g.insert_edge(2,5,weight=7)
 
     g.insert_edge(3,1,weight=7)
-    g.insert_edge(3,2,weight=9)
+    g.insert_edge(3,2,weight=1) # 9, 1
     g.insert_edge(3,5,weight=4)
     g.insert_edge(3,6,weight=3)
     g.insert_edge(3,4,weight=4)
@@ -39,6 +41,22 @@ def init_grapth_1(g: GraphW) -> GraphW:
     g.insert_edge(7,6,weight=2)
     
     return g
+
+def init_grapth_2(g: GraphW) -> GraphW:
+    g.num_vertices = 5
+
+    g.insert_edge(0,1,weight=4)
+    g.insert_edge(0,2,weight=5)
+    g.insert_edge(0,3,weight=10)
+    
+    g.insert_edge(1,3,weight=3)
+    g.insert_edge(2,3,weight=1)
+    g.insert_edge(3,4,weight=2)
+
+    return g
+
+
+MAX_WEIGHT = 100
 
 class Edge:
     def __init__(self, v: int, weight: int):
@@ -138,8 +156,8 @@ class GraphW():
     def prim(self):
 
         intree = [False] * (self.num_vertices)
-        distance = [100] * (self.num_vertices)
-        parent = [-1] * (self.num_vertices)
+        distance = [MAX_WEIGHT] * (self.num_vertices)
+        self.parent = [-1] * (self.num_vertices)
 
         start = 1
         v = start
@@ -150,7 +168,7 @@ class GraphW():
             intree[v] = True
 
             if v != start:
-                print(f"MST edge: {parent[v]}-{v} [{dist}]")
+                print(f"MST edge: {self.parent[v]}-{v} [{dist}]")
 
             # Операция присоединения нового ребра к MST
             # Проверяем ребра только тут и запоминаем информацию о 
@@ -162,12 +180,12 @@ class GraphW():
                     # - Почему тут, ведь мы совершаем лишнюю работу?
                     # - Потому что только тут еще есть информация о родителе,
                     # так как мы не всегда присоединяем следующий лист с текущего v
-                    parent[edge.v] = v
+                    self.parent[edge.v] = v
             
             # Выбираем следующую вершину на присоединение.
             # - Чтобы проверить этот массив все равно совершаем О(n) операций - проверяем все вершины ?!
             # - Да, - иначе был бы поиск по всем ребрам О(m)!
-            dist = 100
+            dist = MAX_WEIGHT
             for i in range(self.num_vertices):
                 if not intree[i] and distance[i] < dist:
                     dist = distance[i]
@@ -176,22 +194,55 @@ class GraphW():
             # TODO: prints the last edge two times
             # print(v)
 
-        print(parent)
+        print(self.parent)
 
-    def find_path(self, v: int, parent: list[int]) -> list[int]:
+    def find_path(self, v: int) -> list[int]:
 
-        if parent[v] == -1:
+        if self.parent[v] == -1:
             return [v]
 
-        path = self.find_path(parent[v], parent)
+        path = self.find_path(self.parent[v])
         path.append(v)
         return path
+    
+    def dijkstra(self):
 
+        intree = [False] * (self.num_vertices)
+        distance = [MAX_WEIGHT] * (self.num_vertices)
+        self.parent = [-1] * (self.num_vertices)
+
+        start = 0
+        distance[start] = 0
+        v = start
+
+        while not intree[v]:
+
+            intree[v] = True
+
+            if v != start:
+                print(f"edge: {self.parent[v]}-{v} [{dist}]")
+
+            for edge in self.edges[v]:
+                new_dist = edge.weight + distance[v]
+                if new_dist < distance[edge.v] and not intree[edge.v]:
+                    distance[edge.v] = new_dist
+                    self.parent[edge.v] = v
+            
+            dist = MAX_WEIGHT
+            for i in range(self.num_vertices):
+                if not intree[i] and distance[i] < dist:
+                    dist = distance[i]
+                    v = i
+
+        print(self.parent)
 
 if __name__ == '__main__':
-    g = init_grapth_1(GraphW())
+    g = init_grapth_2(GraphW())
     g.verbose = False
 
 
     # g.kruscal()
-    g.prim()
+    # g.prim()
+
+    g.dijkstra()
+    print(g.find_path(4))
