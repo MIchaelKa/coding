@@ -14,25 +14,25 @@ class Solution:
         for f in flights:
             self.graph[f[0]].append((f[1], f[2]))
 
-        costs = [Solution.MAX_PRICE] * n
+        self.costs = [Solution.MAX_PRICE] * n
         processed = [False] * n
         self.parents = [-1] * n
 
-        costs[src] = 0
+        self.costs[src] = 0
         v = src
 
         while v != -1:
             for neighbor in self.graph[v]:
-                cost_n = costs[v] + neighbor[1]
-                if not processed[neighbor[0]] and cost_n < costs[neighbor[0]]:
-                    costs[neighbor[0]] = cost_n
+                cost_n = self.costs[v] + neighbor[1]
+                if not processed[neighbor[0]] and cost_n < self.costs[neighbor[0]]:
+                    self.costs[neighbor[0]] = cost_n
                     self.parents[neighbor[0]] = v
 
             min_cost = Solution.MAX_PRICE
             next_v = -1
             for i in range(n):
-                if not processed[i] and costs[i] < min_cost:
-                    min_cost = costs[i]
+                if not processed[i] and self.costs[i] < min_cost:
+                    min_cost = self.costs[i]
                     next_v = i
 
             processed[v] = True
@@ -52,29 +52,30 @@ class Solution:
 
         while not stops <= k:
             min_diff_cost = Solution.MAX_PRICE
-            new_path_cost = 0
             new_i = new_j = -1
             for i in range(len(path)):
                 for j in range(i+2, len(path)):
                     # we can't just get price between i and j, need O(n) search
-                    short_path_cost = self.getCost(i,j)
+                    short_path_cost = self.getCost(path[i],path[j])
                     if short_path_cost == -1:
                         continue
+                        # do we need?
+                        # short_path_cost = self.getCost(path[j], path[i])
+                        # if short_path_cost == -1:
+                        #     continue
 
-                    long_path_cost = costs[j] - costs[i]
+                    long_path_cost = self.costs[path[j]] - self.costs[path[i]]
                     new_cost = short_path_cost - long_path_cost
                     if new_cost < min_diff_cost:
                         min_diff_cost = new_cost
-                        new_path_cost = short_path_cost
                         new_i, new_j = i, j
             
             if new_i == -1:
                 return -1
             
+            self.updateCosts(dst, path[new_j], min_diff_cost)
+            self.parents[path[new_j]] = path[new_i]
             path = self.shortenPath(path, new_i, new_j)
-            for i in range(new_j, len(costs)):
-                costs[i] += min_diff_cost
-
             stops -= 1
 
             # print(new_i, new_j)
@@ -82,8 +83,15 @@ class Solution:
             # print(costs)
             
 
-        return costs[dst]
+        return self.costs[dst]
     
+    def updateCosts(self, v: int, start: int, addition: int):
+        self.costs[v] += addition
+        if v == start:
+            return
+        self.updateCosts(self.parents[v], start, addition)
+
+
     def shortenPath(self, path: List[int], i: int, j: int):
         new_path = []
         for k in range(len(path)):
@@ -160,6 +168,14 @@ def run_tests():
     result = solution.findCheapestPrice(n, flights, src, dst, k)
     assert(result==6)
 
+    n = 5
+    flights = [[0,1,5],[1,2,5],[0,3,2],[3,1,2],[1,4,1],[4,2,1]]
+    src = 0
+    dst = 2
+    k = 2
+    result = solution.findCheapestPrice(n, flights, src, dst, k)
+    assert(result==7)
+
     print("tests passed")
 
 if __name__ == '__main__':
@@ -168,10 +184,10 @@ if __name__ == '__main__':
 
     solution = Solution()
 
-    n = 4
-    flights = [[0,1,1],[0,2,5],[1,2,1],[2,3,1]]
+    n = 11
+    flights = [[0,3,3],[3,4,3],[4,1,3],[0,5,1],[5,1,100],[0,6,2],[6,1,100],[0,7,1],[7,8,1],[8,9,1],[9,1,1],[1,10,1],[10,2,1],[1,2,100]]
     src = 0
-    dst = 3
-    k = 1
+    dst = 2
+    k = 4
     result = solution.findCheapestPrice(n, flights, src, dst, k)
     print(result)
