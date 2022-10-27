@@ -60,7 +60,7 @@ class Solution:
                     short_path_cost = self.getCost(i,j)
                     if short_path_cost == -1:
                         continue
-                    
+
                     long_path_cost = costs[j] - costs[i]
                     new_cost = short_path_cost - long_path_cost
                     if new_cost < min_diff_cost:
@@ -72,7 +72,9 @@ class Solution:
                 return -1
             
             path = self.shortenPath(path, new_i, new_j)
-            costs[new_j] = new_path_cost + costs[new_i]
+            for i in range(new_j, len(costs)):
+                costs[i] += min_diff_cost
+
             stops -= 1
 
             # print(new_i, new_j)
@@ -150,15 +152,24 @@ def run_tests():
     result = solution.findCheapestPrice(n, flights, src, dst, k)
     assert(result==400)
 
+    n = 4
+    flights = [[0,1,1],[0,2,5],[1,2,1],[2,3,1]]
+    src = 0
+    dst = 3
+    k = 1
+    result = solution.findCheapestPrice(n, flights, src, dst, k)
+    assert(result==6)
+
+    print("tests passed")
+
 if __name__ == '__main__':
 
     run_tests()
 
-
     solution = Solution()
 
     n = 4
-    flights = [[0,1,100],[1,2,100],[2,0,100],[1,3,600],[2,3,200]]
+    flights = [[0,1,1],[0,2,5],[1,2,1],[2,3,1]]
     src = 0
     dst = 3
     k = 1
