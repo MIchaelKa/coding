@@ -10,6 +10,7 @@ class Solution:
     def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
 
         self.graph = [[] for _ in range(n)]
+        self.n = n
 
         for f in flights:
             self.graph[f[0]].append((f[1], f[2]))
@@ -17,8 +18,10 @@ class Solution:
         self.costs = [Solution.MAX_PRICE] * n
         processed = [False] * n
         self.parents = [-1] * n
+        self.num_vert = [-1] * n
 
         self.costs[src] = 0
+        self.num_vert[src] = 0
         v = src
 
         while v != -1:
@@ -27,6 +30,7 @@ class Solution:
                 if not processed[neighbor[0]] and cost_n < self.costs[neighbor[0]]:
                     self.costs[neighbor[0]] = cost_n
                     self.parents[neighbor[0]] = v
+                    self.num_vert[neighbor[0]] = self.num_vert[v] + 1
 
             min_cost = Solution.MAX_PRICE
             next_v = -1
@@ -52,30 +56,28 @@ class Solution:
 
         while not stops <= k:
             min_diff_cost = Solution.MAX_PRICE
-            new_i = new_j = -1
+            new_parent_for_j = new_j = -1
             for i in range(len(path)):
                 for j in range(i+2, len(path)):
-                    # we can't just get price between i and j, need O(n) search
-                    short_path_cost = self.getCost(path[i],path[j])
-                    if short_path_cost == -1:
+                    new_parent, new_cost, num_vert_diff = self.getCost(path[i],path[j])
+                    if new_parent == -1:
                         continue
-                        # do we need?
-                        # short_path_cost = self.getCost(path[j], path[i])
-                        # if short_path_cost == -1:
-                        #     continue
+                    
+                    # If we are here - we found new_parent for path[j] vert
 
-                    long_path_cost = self.costs[path[j]] - self.costs[path[i]]
-                    new_cost = short_path_cost - long_path_cost
-                    if new_cost < min_diff_cost:
-                        min_diff_cost = new_cost
-                        new_i, new_j = i, j
+                    old_cost = self.costs[path[j]] - self.costs[path[i]]
+                    diff_cost = new_cost - old_cost
+                    if diff_cost < min_diff_cost:
+                        min_diff_cost = diff_cost
+                        new_parent_for_j = new_parent
+                        new_j = j
             
-            if new_i == -1:
+            if new_parent_for_j == -1:
                 return -1
             
-            self.updateCosts(dst, path[new_j], min_diff_cost)
-            self.parents[path[new_j]] = path[new_i]
-            path = self.shortenPath(path, new_i, new_j)
+            self.updateCosts(dst, path[new_j], min_diff_cost, num_vert_diff)
+            self.parents[path[new_j]] = new_parent_for_j
+            path = self.updatePath(path, new_parent_for_j, new_j)
             stops -= 1
 
             # print(new_i, new_j)
@@ -85,27 +87,39 @@ class Solution:
 
         return self.costs[dst]
     
-    def updateCosts(self, v: int, start: int, addition: int):
+    def updateCosts(self, v: int, start: int, addition: int, num_vert_diff: int):
         self.costs[v] += addition
+        self.num_vert[v] -= num_vert_diff
         if v == start:
             return
-        self.updateCosts(self.parents[v], start, addition)
+        self.updateCosts(self.parents[v], start, addition, num_vert_diff)
 
 
-    def shortenPath(self, path: List[int], i: int, j: int):
-        new_path = []
-        for k in range(len(path)):
-            if k > i and k < j:
-                continue
-            new_path.append(path[k])
+    def updatePath(self, path: List[int], new_parent_for_j: int, j: int):
+        new_path = self.findPath(new_parent_for_j)
+        new_path.extend(path[j:])
         return new_path
 
     
     def getCost(self, i: int, j: int):
-        for neighbor in self.graph[i]:
-            if neighbor[0] == j:
-                return neighbor[1]
-        return -1
+        """
+        Поиск по всем потенциальным предкам вершины j
+        Находим мнинимальную стоимость с меньшим чем было количеством вершин.
+        """
+        min_cost = Solution.MAX_PRICE
+        new_parent = -1
+        num_vert_diff = -1
+        for v in range(self.n):
+            for neighbor in self.graph[v]:
+                if neighbor[0] == j:
+                    new_cost = self.costs[v] + neighbor[1]
+                    new_num_vert = self.num_vert[v] + 1
+                    if new_cost < min_cost and new_num_vert < self.num_vert[j]:
+                        min_cost = new_cost
+                        num_vert_diff = self.num_vert[j] - new_num_vert
+                        new_parent = v
+
+        return new_parent, min_cost, num_vert_diff
         
     def findPath(self, v: int) -> List[int]:
 
@@ -176,18 +190,27 @@ def run_tests():
     result = solution.findCheapestPrice(n, flights, src, dst, k)
     assert(result==7)
 
-    print("tests passed")
-
-if __name__ == '__main__':
-
-    run_tests()
-
-    solution = Solution()
-
     n = 11
     flights = [[0,3,3],[3,4,3],[4,1,3],[0,5,1],[5,1,100],[0,6,2],[6,1,100],[0,7,1],[7,8,1],[8,9,1],[9,1,1],[1,10,1],[10,2,1],[1,2,100]]
     src = 0
     dst = 2
     k = 4
     result = solution.findCheapestPrice(n, flights, src, dst, k)
+    assert(result==11)
+
+    print("tests passed")
+
+if __name__ == '__main__':
+
+    # run_tests()
+
+    solution = Solution()
+
+    n = 10
+    flights = [[0,1,20],[1,2,20],[2,3,30],[3,4,30],[4,5,30],[5,6,30],[6,7,30],[7,8,30],[8,9,30],[0,2,9999],[2,4,9998],[4,7,9997]]
+    src = 0
+    dst = 9
+    k = 4
+    result = solution.findCheapestPrice(n, flights, src, dst, k)
+    # assert(result==30054)
     print(result)
