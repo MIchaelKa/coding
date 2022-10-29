@@ -3,6 +3,7 @@
 """
 
 from typing import List
+
 class Solution:
 
     MAX_PRICE = 99999
@@ -45,10 +46,6 @@ class Solution:
         
         path = self.findPath(dst)
 
-        # print(self.parents)
-        # print(path)
-        # print(costs)
-
         if path[0] != src:
             return -1
         
@@ -57,6 +54,7 @@ class Solution:
         while not stops <= k:
             min_diff_cost = Solution.MAX_PRICE
             new_parent_for_j = new_j = -1
+            new_num_vert_diff = 0
             for i in range(len(path)):
                 for j in range(i+2, len(path)):
                     new_parent, new_cost, num_vert_diff = self.getCost(path[i],path[j])
@@ -71,19 +69,15 @@ class Solution:
                         min_diff_cost = diff_cost
                         new_parent_for_j = new_parent
                         new_j = j
+                        new_num_vert_diff = num_vert_diff
             
             if new_parent_for_j == -1:
                 return -1
             
-            self.updateCosts(dst, path[new_j], min_diff_cost, num_vert_diff)
+            self.updateCosts(dst, path[new_j], min_diff_cost, new_num_vert_diff)
             self.parents[path[new_j]] = new_parent_for_j
             path = self.updatePath(path, new_parent_for_j, new_j)
-            stops -= 1
-
-            # print(new_i, new_j)
-            # print(path)
-            # print(costs)
-            
+            stops -= new_num_vert_diff           
 
         return self.costs[dst]
     
@@ -104,6 +98,7 @@ class Solution:
     def getCost(self, i: int, j: int):
         """
         Поиск по всем потенциальным предкам вершины j
+        Потенциальный предок - переменная v
         Находим мнинимальную стоимость с меньшим чем было количеством вершин.
         """
         min_cost = Solution.MAX_PRICE
@@ -190,6 +185,14 @@ def run_tests():
     result = solution.findCheapestPrice(n, flights, src, dst, k)
     assert(result==7)
 
+    n = 10
+    flights = [[0,1,20],[1,2,20],[2,3,30],[3,4,30],[4,5,30],[5,6,30],[6,7,30],[7,8,30],[8,9,30],[0,2,9999],[2,4,9998],[4,7,9997]]
+    src = 0
+    dst = 9
+    k = 4
+    result = solution.findCheapestPrice(n, flights, src, dst, k)
+    assert(result==30054)
+
     n = 11
     flights = [[0,3,3],[3,4,3],[4,1,3],[0,5,1],[5,1,100],[0,6,2],[6,1,100],[0,7,1],[7,8,1],[8,9,1],[9,1,1],[1,10,1],[10,2,1],[1,2,100]]
     src = 0
@@ -202,7 +205,7 @@ def run_tests():
 
 if __name__ == '__main__':
 
-    # run_tests()
+    run_tests()
 
     solution = Solution()
 
@@ -212,5 +215,4 @@ if __name__ == '__main__':
     dst = 9
     k = 4
     result = solution.findCheapestPrice(n, flights, src, dst, k)
-    # assert(result==30054)
     print(result)
