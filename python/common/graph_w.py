@@ -4,41 +4,39 @@ from collections import deque
 from union_set import UnionSet
 
 def init_grapth_1(g: GraphW) -> GraphW:
-    g.num_vertices = 7 + 1 # since we start enumerate verticies from 1
+    g.num_vertices = 7
 
-    # TODO: should we remove cycles for dijkstra algorithm ?
-
-    g.insert_edge(1,2,weight=5)
-    g.insert_edge(1,3,weight=7)
-    g.insert_edge(1,4,weight=12)
+    g.insert_edge(0,1,weight=5)
+    g.insert_edge(0,2,weight=7)
+    g.insert_edge(0,3,weight=12)
     
     
-    g.insert_edge(2,1,weight=5)
-    g.insert_edge(2,3,weight=1) # 9, 1
-    g.insert_edge(2,5,weight=7)
+    g.insert_edge(1,0,weight=5)
+    g.insert_edge(1,2,weight=1) # 9, 1
+    g.insert_edge(1,4,weight=7)
 
-    g.insert_edge(3,1,weight=7)
-    g.insert_edge(3,2,weight=1) # 9, 1
-    g.insert_edge(3,5,weight=4)
-    g.insert_edge(3,6,weight=3)
-    g.insert_edge(3,4,weight=4)
+    g.insert_edge(2,0,weight=7)
+    g.insert_edge(2,1,weight=1) # 9, 1
+    g.insert_edge(2,4,weight=4)
+    g.insert_edge(2,5,weight=3)
+    g.insert_edge(2,3,weight=4)
 
-    g.insert_edge(4,1,weight=12)
-    g.insert_edge(4,3,weight=4)
-    g.insert_edge(4,6,weight=7)
+    g.insert_edge(3,0,weight=12)
+    g.insert_edge(3,2,weight=4)
+    g.insert_edge(3,5,weight=7)
     
-    g.insert_edge(5,2,weight=7)
-    g.insert_edge(5,3,weight=4)
+    g.insert_edge(4,1,weight=7)
+    g.insert_edge(4,2,weight=4)
+    g.insert_edge(4,5,weight=2)
+    g.insert_edge(4,6,weight=5)
+
+    g.insert_edge(5,2,weight=3)
+    g.insert_edge(5,3,weight=7)
+    g.insert_edge(5,4,weight=2)
     g.insert_edge(5,6,weight=2)
-    g.insert_edge(5,7,weight=5)
 
-    g.insert_edge(6,3,weight=3)
-    g.insert_edge(6,4,weight=7)
+    g.insert_edge(6,4,weight=5)
     g.insert_edge(6,5,weight=2)
-    g.insert_edge(6,7,weight=2)
-
-    g.insert_edge(7,5,weight=5)
-    g.insert_edge(7,6,weight=2)
     
     return g
 
@@ -236,13 +234,32 @@ class GraphW():
 
         print(self.parent)
 
+    def bellman_ford(self, source: int):
+
+        distance = [MAX_WEIGHT] * (self.num_vertices)
+        self.parent = [-1] * (self.num_vertices)
+
+        distance[source] = 0
+
+        for _ in range(self.num_vertices-1):
+            for v in range(self.num_vertices):
+                for edge in self.edges[v]:
+                    new_dist = edge.weight + distance[v]
+                    if new_dist < distance[edge.v]:
+                        distance[edge.v] = new_dist
+                        self.parent[edge.v] = v
+
+
+
 if __name__ == '__main__':
-    g = init_grapth_2(GraphW())
+    g = init_grapth_1(GraphW())
     g.verbose = False
 
 
     # g.kruscal()
     # g.prim()
+    # g.dijkstra()
 
-    g.dijkstra()
-    print(g.find_path(4))
+    g.bellman_ford(source=0)
+
+    print(g.find_path(6))
