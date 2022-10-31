@@ -3,58 +3,10 @@ from collections import deque
 
 from union_set import UnionSet
 
-def init_grapth_1(g: GraphW) -> GraphW:
-    g.num_vertices = 7
-
-    g.insert_edge(0,1,weight=5)
-    g.insert_edge(0,2,weight=7)
-    g.insert_edge(0,3,weight=12)
-    
-    
-    g.insert_edge(1,0,weight=5)
-    g.insert_edge(1,2,weight=1) # 9, 1
-    g.insert_edge(1,4,weight=7)
-
-    g.insert_edge(2,0,weight=7)
-    g.insert_edge(2,1,weight=1) # 9, 1
-    g.insert_edge(2,4,weight=4)
-    g.insert_edge(2,5,weight=3)
-    g.insert_edge(2,3,weight=4)
-
-    g.insert_edge(3,0,weight=12)
-    g.insert_edge(3,2,weight=4)
-    g.insert_edge(3,5,weight=7)
-    
-    g.insert_edge(4,1,weight=7)
-    g.insert_edge(4,2,weight=4)
-    g.insert_edge(4,5,weight=2)
-    g.insert_edge(4,6,weight=5)
-
-    g.insert_edge(5,2,weight=3)
-    g.insert_edge(5,3,weight=7)
-    g.insert_edge(5,4,weight=2)
-    g.insert_edge(5,6,weight=2)
-
-    g.insert_edge(6,4,weight=5)
-    g.insert_edge(6,5,weight=2)
-    
-    return g
-
-def init_grapth_2(g: GraphW) -> GraphW:
-    g.num_vertices = 5
-
-    g.insert_edge(0,1,weight=4)
-    g.insert_edge(0,2,weight=5)
-    g.insert_edge(0,3,weight=10)
-    
-    g.insert_edge(1,3,weight=3)
-    g.insert_edge(2,3,weight=1)
-    g.insert_edge(3,4,weight=2)
-
-    return g
-
+import graph_builder as gb
 
 MAX_WEIGHT = 100
+MAX_NUM_VERT = 10
 
 class Edge:
     def __init__(self, v: int, weight: int):
@@ -68,19 +20,17 @@ class EdgePair:
         self.weight = weight
 
 class GraphW():
-    def __init__(self):
-        self.verbose = True
-        self.directed = False
-        self.num_vertices = 0
-        self.max_num_vertices = 10
-        self.edges = [[] for _ in range(self.max_num_vertices)]
+
+    def __init__(self, directed: bool = False, num_vertices: int = MAX_NUM_VERT):
+        self.verbose = False
+
+        self.directed = directed
+        self.num_vertices = num_vertices
+        self.edges = [[] for _ in range(self.num_vertices)]
         self.edge_array = []
 
     def insert_edge(self, x: int, y: int, weight: int = 1) -> None:
         self.edges[x].append(Edge(y, weight))
-
-    def get_root(self) -> int:
-        return 1
 
     def bfs(self, start: int) -> None:
         """
@@ -90,9 +40,9 @@ class GraphW():
             start (int): The vertex to start with (Root vertex).
         """
         
-        processed = [False] * self.max_num_vertices
-        discovered = [False] * self.max_num_vertices
-        self.parent = [-1] * self.max_num_vertices
+        processed = [False] * self.num_vertices
+        discovered = [False] * self.num_vertices
+        self.parent = [-1] * self.num_vertices
         
         queue = deque()
         
@@ -137,7 +87,7 @@ class GraphW():
 
         union_set = UnionSet(self.num_vertices)
 
-        self.bfs(self.get_root())
+        self.bfs(0)
 
         self.edge_array.sort(key=lambda k: k.weight)
         
@@ -157,7 +107,7 @@ class GraphW():
         distance = [MAX_WEIGHT] * (self.num_vertices)
         self.parent = [-1] * (self.num_vertices)
 
-        start = 1
+        start = 0
         v = start
 
         # stops when we will not able to update v
@@ -218,7 +168,8 @@ class GraphW():
             intree[v] = True
 
             if v != start:
-                print(f"edge: {self.parent[v]}-{v} [{dist}]")
+                if self.verbose:
+                    print(f"edge: {self.parent[v]}-{v} [{dist}]")
 
             for edge in self.edges[v]:
                 new_dist = edge.weight + distance[v]
@@ -231,8 +182,6 @@ class GraphW():
                 if not intree[i] and distance[i] < dist:
                     dist = distance[i]
                     v = i
-
-        print(self.parent)
 
     def bellman_ford(self, source: int):
 
@@ -250,16 +199,10 @@ class GraphW():
                         self.parent[edge.v] = v
 
 
-
 if __name__ == '__main__':
-    g = init_grapth_1(GraphW())
+    
+    g = gb.build_graph_from_file("graph_d_w_2")
     g.verbose = False
 
-
-    # g.kruscal()
-    # g.prim()
-    # g.dijkstra()
-
-    g.bellman_ford(source=0)
-
+    g.bellman_ford(0)
     print(g.find_path(6))
