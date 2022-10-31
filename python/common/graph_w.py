@@ -185,24 +185,34 @@ class GraphW():
 
     def bellman_ford(self, source: int):
 
-        distance = [MAX_WEIGHT] * (self.num_vertices)
+        self.distance = [MAX_WEIGHT] * (self.num_vertices)
         self.parent = [-1] * (self.num_vertices)
 
-        distance[source] = 0
+        self.distance[source] = 0
 
         for _ in range(self.num_vertices-1):
             for v in range(self.num_vertices):
                 for edge in self.edges[v]:
-                    new_dist = edge.weight + distance[v]
-                    if new_dist < distance[edge.v]:
-                        distance[edge.v] = new_dist
+                    new_dist = edge.weight + self.distance[v]
+                    if new_dist < self.distance[edge.v]:
+                        self.distance[edge.v] = new_dist
                         self.parent[edge.v] = v
 
+        for v in range(self.num_vertices):
+            for edge in self.edges[v]:
+                new_dist = edge.weight + self.distance[v]
+                if new_dist < self.distance[edge.v]:
+                    return False
+                
+        return True
 
 if __name__ == '__main__':
     
-    g = gb.build_graph_from_file("graph_d_w_2")
+    g = gb.build_graph_from_file("graph_d_w_3_nc")
     g.verbose = False
 
-    g.bellman_ford(0)
-    print(g.find_path(6))
+    result = g.bellman_ford(0)
+    print(result)
+    # print(g.find_path(6))
+    print(g.parent)
+    print(g.distance)
