@@ -183,6 +183,11 @@ class GraphW():
                     dist = distance[i]
                     v = i
 
+    def edge_iter(self):
+        for v in range(self.num_vertices):
+            for edge in self.edges[v]:
+                yield v, edge.v, edge.weight
+
     def bellman_ford(self, source: int):
 
         self.distance = [MAX_WEIGHT] * (self.num_vertices)
@@ -191,23 +196,20 @@ class GraphW():
         self.distance[source] = 0
 
         for _ in range(self.num_vertices-1):
-            for v in range(self.num_vertices):
-                for edge in self.edges[v]:
-                    new_dist = edge.weight + self.distance[v]
-                    if new_dist < self.distance[edge.v]:
-                        self.distance[edge.v] = new_dist
-                        self.parent[edge.v] = v
+            for u, v, w in self.edge_iter():
+                new_dist = w + self.distance[u]
+                if new_dist < self.distance[v]:
+                    self.distance[v] = new_dist
+                    self.parent[v] = u
 
         # Detect if negative cycles is present
-        # TODO: edge iterator
         ret_val = True
-        for v in range(self.num_vertices):
-            for edge in self.edges[v]:
-                new_dist = edge.weight + self.distance[v]
-                if new_dist < self.distance[edge.v]:
-                    if self.verbose:
-                        print(f"nc edge {v}-{edge.v} [{self.distance[edge.v]}]")
-                    ret_val = False
+        for u, v, w in self.edge_iter():
+            new_dist = w + self.distance[u]
+            if new_dist < self.distance[v]:
+                if self.verbose:
+                    print(f"nc edge {u}-{v} [{self.distance[v]}]")
+                ret_val = False
                 
         return ret_val
     
@@ -223,14 +225,12 @@ class GraphW():
         self.parent = [-1] * (self.num_vertices)
 
         for _ in range(self.num_vertices-1):
-            for v in range(self.num_vertices):
-                for edge in self.edges[v]:
-                    new_dist = min(edge.weight + self.distance[v], edge.weight)
-                    if new_dist < self.distance[edge.v]:
-                        self.distance[edge.v] = new_dist
-                        # FIXME: parent do not set right
-                        self.parent[edge.v] = v
-
+            for u, v, w in self.edge_iter():
+                new_dist = min(w + self.distance[u], w)
+                if new_dist < self.distance[v]:
+                    self.distance[v] = new_dist
+                    # FIXME: parent do not set right
+                    self.parent[v] = u
                         
         return True
 
