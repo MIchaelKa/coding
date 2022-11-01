@@ -26,7 +26,7 @@ def run_bellman_ford():
     result = g.bellman_ford(0)
     assert(result == False)
 
-    # 22.1-6
+    # Cormen [22.1-6]
     g = gb.build_graph_from_file("graph_d_w_4")
     result = g.bellman_ford_min_paths()
     assert(result == True)

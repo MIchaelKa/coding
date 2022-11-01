@@ -215,7 +215,8 @@ class GraphW():
         """
         Cormen [22.1-6]
         Find minimum distance for any possible path(from any start vertex) for all verticies.
-        If no such paths exist return MAX_WEIGHT for this vertex
+        If no such paths exist return MAX_WEIGHT for this vertex, which means that
+        this vertex is not reachable from anywhere.
         """
 
         self.distance = [MAX_WEIGHT] * (self.num_vertices)
@@ -227,6 +228,7 @@ class GraphW():
                     new_dist = min(edge.weight + self.distance[v], edge.weight)
                     if new_dist < self.distance[edge.v]:
                         self.distance[edge.v] = new_dist
+                        # FIXME: parent do not set right
                         self.parent[edge.v] = v
 
                         
