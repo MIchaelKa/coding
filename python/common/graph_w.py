@@ -198,20 +198,47 @@ class GraphW():
                         self.distance[edge.v] = new_dist
                         self.parent[edge.v] = v
 
+        # Detect if negative cycles is present
+        # TODO: edge iterator
+        ret_val = True
         for v in range(self.num_vertices):
             for edge in self.edges[v]:
                 new_dist = edge.weight + self.distance[v]
                 if new_dist < self.distance[edge.v]:
-                    return False
+                    if self.verbose:
+                        print(f"nc edge {v}-{edge.v} [{self.distance[edge.v]}]")
+                    ret_val = False
                 
+        return ret_val
+    
+    def bellman_ford_min_paths(self):
+        """
+        Cormen [22.1-6]
+        Find minimum distance for any possible path(from any start vertex) for all verticies.
+        If no such paths exist return MAX_WEIGHT for this vertex
+        """
+
+        self.distance = [MAX_WEIGHT] * (self.num_vertices)
+        self.parent = [-1] * (self.num_vertices)
+
+        for _ in range(self.num_vertices-1):
+            for v in range(self.num_vertices):
+                for edge in self.edges[v]:
+                    new_dist = min(edge.weight + self.distance[v], edge.weight)
+                    if new_dist < self.distance[edge.v]:
+                        self.distance[edge.v] = new_dist
+                        self.parent[edge.v] = v
+
+                        
         return True
+
 
 if __name__ == '__main__':
     
-    g = gb.build_graph_from_file("graph_d_w_3_nc")
-    g.verbose = False
+    g = gb.build_graph_from_file("graph_d_w_4")
+    g.verbose = True
 
-    result = g.bellman_ford(0)
+    result = g.bellman_ford_min_paths()
     print(result)
     # print(g.find_path(6))
     print(g.parent)
