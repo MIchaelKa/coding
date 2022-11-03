@@ -124,7 +124,57 @@ class Solution:
         path = self.findPath(self.parents[v])
         path.append(v)
         return path
-    
+
+class Solution2:
+    """
+    Looks like this idea is not working
+    """
+
+    MAX_PRICE = 99999
+
+    def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
+        self.n = n
+        self.k = k
+        self.src = src
+
+        # compose transposed graph
+        self.graph_t = [[] for _ in range(n)]
+        for f in flights:
+            self.graph_t[f[1]].append(f[0])
+
+        # bfs on transposed graph
+        self.path_len = [k+1] * self.n
+        self.path_len[dst] = 0
+        self.bfs(dst)
+
+        # check src
+        if self.path_len[src] > k:
+            return -1
+        
+        # compose normal graph
+        self.graph = [[] for _ in range(n)]
+        for f in flights:
+            if self.path_len[f[1]] < k:
+                self.graph[f[0]].append(f[1])
+
+        print(self.graph)
+
+            
+    def bfs(self, v):
+
+        if self.path_len[v] > self.k:
+            return 
+        
+        if v == self.src:
+            return
+
+        for u in self.graph_t[v]:
+            new_len = self.path_len[v] + 1
+            if new_len < self.path_len[u]:
+                self.path_len[u] = new_len
+            self.bfs(u)
+        
+            
 def run_tests():
 
     solution = Solution()
@@ -205,14 +255,15 @@ def run_tests():
 
 if __name__ == '__main__':
 
-    run_tests()
+    # run_tests()
 
-    solution = Solution()
+    solution = Solution2()
 
-    n = 10
-    flights = [[0,1,20],[1,2,20],[2,3,30],[3,4,30],[4,5,30],[5,6,30],[6,7,30],[7,8,30],[8,9,30],[0,2,9999],[2,4,9998],[4,7,9997]]
+    n = 11
+    flights = [[0,3,3],[3,4,3],[4,1,3],[0,5,1],[5,1,100],[0,6,2],[6,1,100],[0,7,1],[7,8,1],[8,9,1],[9,1,1],[1,10,1],[10,2,1],[1,2,100]]
     src = 0
-    dst = 9
+    dst = 2
     k = 4
     result = solution.findCheapestPrice(n, flights, src, dst, k)
     print(result)
+    print(solution.path_len)
