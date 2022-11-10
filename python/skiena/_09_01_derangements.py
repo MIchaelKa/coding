@@ -34,9 +34,9 @@ class Solution:
 
         for i in range(len(candidates)):
             new_cand = list(candidates) # shallow copy
-            solution[k] = new_cand.pop(i)
+            solution[k] = new_cand.pop(i) # make move
             self.backtrack(solution, new_cand, k+1, n)
-            solution[k] = None
+            solution[k] = None # unmove
 
     def reject(self, solution: list[int]):
         for i in range(len(solution)):
