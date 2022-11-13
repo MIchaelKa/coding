@@ -16,10 +16,8 @@ Backtracking search for all derangements.
 class Solution:
 
     def derangements(self, n: int):
-
         solution = [None] * n
-        candidates = list(range(n+1))[1:]
-        
+        candidates = list(range(n+1))[1:]   
         self.backtrack(solution, candidates, 0, n)
 
     def backtrack(self, solution: list[int], candidates: list[int], k: int, n: int):
