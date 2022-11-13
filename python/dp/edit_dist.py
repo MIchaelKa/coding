@@ -6,7 +6,7 @@ Levenshtein distance implementation
 
 def edit_dist(p: str, t: str) -> int:
     """
-    Calculates edit distance betweeb two strings
+    Calculates edit distance between two strings
 
     Args:
         p (str): Pattern string. (Search string)
@@ -30,14 +30,13 @@ def edit_dist(p: str, t: str) -> int:
         dp_matrix[0][j] = j
 
     # Индексы в матрице и строках сдвинуты на 1
-    # i, j в строках p и t соответсвует i+1, j+1 в матрице dp_matrix
-    for i in range(len(p)):
-        for j in range(len(t)):
-            match = dp_matrix[i][j] + match_cost(p[i], t[j])
-            insert = dp_matrix[i+1][j] + 1 # слева: продвинулись в таргете, но остались на месте в паттерне -> вставка в паттерн
-            delete = dp_matrix[i][j+1] + 1 # сверху: продвинулись в паттерне, но остались на месте в таргете -> удаление из паттерна
+    for i in range(1, len(p)+1):
+        for j in range(1, len(t)+1):
+            match = dp_matrix[i-1][j-1] + match_cost(p[i-1], t[j-1])
+            insert = dp_matrix[i][j-1] + 1 # слева: продвинулись в таргете, но остались на месте в паттерне -> вставка в паттерн
+            delete = dp_matrix[i-1][j] + 1 # сверху: продвинулись в паттерне, но остались на месте в таргете -> удаление из паттерна
 
-            dp_matrix[i+1][j+1] = min(match, delete, insert)
+            dp_matrix[i][j] = min(match, delete, insert)
     
     print_cost_matrix(dp_matrix)
 
