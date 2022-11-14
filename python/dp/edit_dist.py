@@ -8,7 +8,7 @@ PATH_MATCH = 0
 PATH_INSERT = 1
 PATH_DELETE = 2  
 
-def edit_dist(p: str, t: str) -> int:
+def edit_dist(p: str, t: str, verbose=False) -> int:
     """
     Calculates edit distance between two strings
 
@@ -60,11 +60,12 @@ def edit_dist(p: str, t: str) -> int:
             dp_matrix[i][j] = ops[min_op]
             path_matrix[i][j] = min_op
     
-    print_cost_matrix(dp_matrix)
-    print()
-    print_cost_matrix(path_matrix)
-    print()
-    reconstruct_path(p, t, path_matrix, len(p), len(t))
+    if verbose:
+        print_cost_matrix(dp_matrix)
+        print()
+        print_cost_matrix(path_matrix)
+        print()
+        reconstruct_path(p, t, path_matrix, len(p), len(t))
 
     return dp_matrix[-1][-1]
 
@@ -75,14 +76,17 @@ def reconstruct_path(p: str, t: str, path_matrix: list[list[int]], i: int, j: in
     if path_matrix[i][j] == PATH_MATCH:
         reconstruct_path(p, t, path_matrix, i-1, j-1)
         handle_match(p[i-1], t[j-1])
+        return
 
     if path_matrix[i][j] == PATH_INSERT:
         reconstruct_path(p, t, path_matrix, i, j-1)
         handle_insert(p[i-1], t[j-1])
+        return
 
     if path_matrix[i][j] == PATH_DELETE:
         reconstruct_path(p, t, path_matrix, i-1, j)
         handle_delete(p[i-1], t[j-1])
+        return
         
 def handle_match(a: str, b: str):
     if a == b:
@@ -108,11 +112,23 @@ def print_cost_matrix(matrix: list[list[int]]) -> None:
             print(f"{matrix[i][j]:3d}", end="")
         print("]")
 
+def run_tests():
 
-if __name__ == '__main__':
-
-    # dist = edit_dist("thou", "you")
-    # print(dist)
+    dist = edit_dist("thou", "you")
+    assert(dist==2)
 
     dist = edit_dist("bcdef", "obndef")
+    assert(dist==2)
+
+    dist = edit_dist("sdfbsdfcdf", "abc")
+    assert(dist==8)
+
+    print("tests passed!")
+
+
+if __name__ == '__main__':  
+
+    dist = edit_dist("bcdef", "obndef", verbose=True)
     print(dist)
+
+    run_tests()
