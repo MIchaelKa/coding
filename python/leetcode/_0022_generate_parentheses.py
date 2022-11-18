@@ -6,10 +6,10 @@ from typing import List, Set
 
 class Solution:
     def generateParenthesis(self, n: int) -> List[str]:
-        strings = ["()"] # not a set (casting?)
+        strings = ["()"]
         return list(self.generateParenthesisHelper(strings, n, 1))
 
-    def generateParenthesisHelper(self, strings: Set[str], n: int, k: int) -> List[str]:
+    def generateParenthesisHelper(self, strings: List[str], n: int, k: int) -> List[str]:
         if k == n:
             return strings
 
