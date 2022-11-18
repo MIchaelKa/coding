@@ -18,21 +18,22 @@ class Solution:
         last_min = prices[0]
         last_diff = 0
 
+        def close(price):
+            nonlocal total, last_min, last_diff
+            total += last_diff
+            last_min = price
+            last_diff = 0
+
         for i in range(1, len(prices)):
             if prices[i] < last_min:
-                total += last_diff
-                last_min = prices[i]
-                last_diff = 0
+                close(prices[i])
                 continue
 
             new_diff = prices[i]-last_min
             if new_diff > last_diff:
                 last_diff = new_diff
             else:
-                total += last_diff
-                last_min = prices[i]
-                last_diff = 0
-                continue
+                close(prices[i])
         
         return total + last_diff
 
