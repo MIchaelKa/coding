@@ -3,7 +3,7 @@
 
 _0347_top_k_freq_elem
 
-#array
+#array, #heap, #bucket_sort
 
 '''
 
