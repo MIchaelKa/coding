@@ -16,10 +16,9 @@ class Solution:
         for i in range(1, len(nums)):
             left_prod.append(left_prod[i-1]*nums[i])
 
-        nums_reverted = nums[::-1]
-        right_prod = [nums_reverted[0]]
-        for i in range(1, len(nums_reverted)):
-            right_prod.append(right_prod[i-1]*nums_reverted[i])
+        right_prod = [nums[-1]]
+        for i in range(1, len(nums)-1):
+            right_prod.append(right_prod[i-1]*nums[-i-1])
 
         answer = []
         for i in range(len(nums)):
@@ -27,7 +26,7 @@ class Solution:
             if i > 0:
                 result *= left_prod[i-1]
             if i < len(nums)-1:
-                result *= right_prod[-i-2]
+                result *= right_prod[-i-1]
             answer.append(result)
 
         return answer
