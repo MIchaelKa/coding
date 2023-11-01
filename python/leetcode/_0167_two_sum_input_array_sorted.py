@@ -8,6 +8,9 @@ _0167_two_sum_input_array_sorted
 Tags:
 #array, two_pointers
 
+Takeaways:
+- in the loop check more likely situation first
+
 '''
 
 from typing import List
@@ -17,15 +20,15 @@ class Solution:
 
         low = 0
         high = len(numbers) - 1
-        
+
         while low < high:
             guess = numbers[low] + numbers[high]
-            if guess == target:
-                return[low+1, high+1]
+            if guess < target:
+                low += 1
             elif guess > target:
                 high -= 1
             else:
-                low += 1
+                return[low+1, high+1]
 
         return []
 
