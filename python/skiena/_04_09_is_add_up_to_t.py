@@ -11,8 +11,8 @@ def is_add_up_to_t_helper(array: list[int], k: int, t: int) -> list[int]:
     Solution 1.
 
     Complexity:
-        time : O(n^(k-1)*log(n))
-        memory : O(n^(k-1))
+        time: O(n^(k-1)*log(n))
+        memory: O(n^(k-1))
     """
     
     if k == 1:
