@@ -1,5 +1,12 @@
 '''
-_0020_valid_parentheses
+[leetcode] _0020_valid_parentheses
+
+Related problems:
+[skiena] _03_01_valid_parentheses
+
+Tags:
+#stack
+
 '''
 
 class Solution:
@@ -62,9 +69,28 @@ class Solution:
         return True
     
 class Solution_2:
+    """
+    Solution 2.
+    Using stack.
+    """
     def isValid(self, s: str) -> bool:
 
-        return True
+        stack = [None]
+
+        char_dict = {
+            ')' : '(',
+            ']' : '[',
+            '}' : '{'
+        }
+
+        for char in s:
+            last_char = stack[-1]
+            if char in char_dict and last_char == char_dict[char]:
+                stack.pop()
+            else:
+                stack.append(char)
+
+        return len(stack) == 1
     
 def run_tests(solution):
     assert(solution.isValid("()[]{}")==True)
@@ -76,9 +102,13 @@ def run_tests(solution):
 
     
 def main():
-    solution = Solution()
+    solution = Solution_2()
 
     run_tests(solution)
 
-    answer = solution.isValid("{[]}")
+    # string = "{[]}"
+    # string = "()[]{}"
+    string = "()([}){}"
+
+    answer = solution.isValid(string)
     print(answer)
