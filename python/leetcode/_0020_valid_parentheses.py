@@ -5,7 +5,7 @@ Related problems:
 [skiena] _03_01_valid_parentheses
 
 Tags:
-#stack
+#stack, #string
 
 '''
 
