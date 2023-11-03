@@ -1,5 +1,5 @@
 
-from leetcode._0015_3_sum import *
+from leetcode._0020_valid_parentheses import *
 
 if __name__ == '__main__':
     main()
