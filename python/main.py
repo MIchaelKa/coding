@@ -1,5 +1,5 @@
 
-from leetcode._0875_koko_eating_bananas import main
+from leetcode._0153_find_min_in_rot_array import main
 
 if __name__ == '__main__':
     main()
