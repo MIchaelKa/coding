@@ -9,7 +9,6 @@ heap + hash_map search
 
 '''
 
-
 class Solution:
     def characterReplacement(self, s: str, k: int) -> int:
 
@@ -23,7 +22,7 @@ class Solution:
 
         for i in range(1, len(s)):
 
-            print(f'c={s[i]}, max_len={max_len}')
+            # print(f'c={s[i]}, max_len={max_len}')
 
             if s[i] == max_char:
                 max_count += 1
@@ -32,7 +31,7 @@ class Solution:
 
             counter[s[i]] = counter.get(s[i], 0) + 1
 
-            print(f'counter={counter}')
+            # print(f'counter={counter}')
 
             if counter[s[i]] > max_count:
                 counter[max_char] = max_count
@@ -45,6 +44,12 @@ class Solution:
             while cur_edits > k:
                 if s[start] == max_char:
                     max_count -= 1
+                    # TODO: update max_char dup
+                    if counter[s[i]] > max_count:
+                        counter[max_char] = max_count
+                        max_char = s[i]
+                        max_count = counter[s[i]]
+                        counter.pop(max_char)
                 else:
                     counter[s[start]] -= 1
                     if counter[s[start]] == 0:
@@ -68,13 +73,18 @@ def run_tests(solution):
     answer = solution.characterReplacement(s, k)
     assert(answer==4)
 
+    s = "BAAA"
+    k = 0
+    answer = solution.characterReplacement(s, k)
+    assert(answer==3)
+
     print("test passed")
 
 
 def main():
     solution = Solution()
 
-    # run_tests(solution)
+    run_tests(solution)
 
     s = "BAAA"
     k = 0
