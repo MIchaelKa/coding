@@ -3,13 +3,26 @@
 
 _0424_longest_repeat_char_replace
 
-...
+
+Notes:
 Using heap can help?
 heap + hash_map search
+
+I didn't use the fact that only english uppercase letter is possible.
+O(26) for search in counter
+
+Tags:
+#array, #sliding_window
 
 '''
 
 class Solution:
+    """
+    Solution 1.
+
+    Naive
+    
+    """
 
     def characterReplacement(self, s: str, k: int) -> int:
 
@@ -19,7 +32,7 @@ class Solution:
         max_len = 1
 
         max_char = s[0]
-        max_count = 1
+        max_count = 1 # maxf we don't have to update it if it decrease
 
         for i in range(1, len(s)):
 
@@ -47,6 +60,7 @@ class Solution:
                     max_count -= 1
 
                     # Find current maximum in counter
+                    # max(counter.values())
                     max_edit_char = None
                     max_edit_count = 0
                     for c,v in counter.items():
