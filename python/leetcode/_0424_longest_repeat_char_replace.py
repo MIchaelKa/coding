@@ -10,6 +10,7 @@ heap + hash_map search
 '''
 
 class Solution:
+
     def characterReplacement(self, s: str, k: int) -> int:
 
         counter = {}
@@ -44,11 +45,21 @@ class Solution:
             while cur_edits > k:
                 if s[start] == max_char:
                     max_count -= 1
-                    # TODO: update max_char dup
-                    if counter[s[i]] > max_count:
+
+                    # Find current maximum in counter
+                    max_edit_char = None
+                    max_edit_count = 0
+                    for c,v in counter.items():
+                        if v > max_edit_count:
+                            max_edit_char = c
+                            max_edit_count = v
+
+                    # Check if we should update external max
+                    # TODO: dup code
+                    if max_edit_count > max_count:
                         counter[max_char] = max_count
-                        max_char = s[i]
-                        max_count = counter[s[i]]
+                        max_char = max_edit_char
+                        max_count = max_edit_count
                         counter.pop(max_char)
                 else:
                     counter[s[start]] -= 1
