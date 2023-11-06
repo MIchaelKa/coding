@@ -20,7 +20,8 @@ class Solution:
     """
     Solution 1.
 
-    Naive
+    Notes:
+    It should take ~10 lines of codes
     
     """
 
