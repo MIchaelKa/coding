@@ -1,5 +1,5 @@
 
-from leetcode._0543_tree_diameter import main
+from leetcode._0110_balanced_tree import main
 
 if __name__ == '__main__':
     main()
