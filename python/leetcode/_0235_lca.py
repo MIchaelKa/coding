@@ -60,7 +60,7 @@ def run_tests(solution):
     q = tree.left.right.right
     assert(solution.lowestCommonAncestor(tree, p, q).val==2)
 
-    print("test passed!")
+    print("✅ - tests passed")
 
 def main():
     solution = Solution()

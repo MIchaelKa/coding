@@ -11,6 +11,11 @@ Backtracking search for all derangements.
 Но тогда как прокидывать вариант вниз по стеку вызовов?
 Использовать глобальные переменные?
 
+_09_01_derangements
+
+Tags:
+#backtracking
+
 """
 
 class Solution:
@@ -50,9 +55,7 @@ class Solution:
     def process_solution(self, data: list[int]):
         print(data)
 
-
-if __name__ == '__main__':
-
+def main():
     solution = Solution()
     solution.derangements(4)
  
