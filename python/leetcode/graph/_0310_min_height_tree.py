@@ -12,6 +12,10 @@ Among all possible rooted trees, those with minimum height (i.e. min(h))  are ca
 Return a list of all MHTs' root labels. You can return the answer in any order.
 
 The height of a rooted tree is the number of edges on the longest downward path between the root and a leaf.
+
+Tags:
+#graph, #tree
+
 """
 
 from typing import List

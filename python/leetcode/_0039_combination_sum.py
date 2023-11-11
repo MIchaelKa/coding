@@ -28,7 +28,7 @@ class Solution:
                 return
             
             for i, c in enumerate(candidates):
-                new_cand = candidates[i:]
+                new_cand = candidates[i:] # construct_candidates
                 solution.append(c)
                 backtrack(list(solution), new_cand)
                 solution.pop()
