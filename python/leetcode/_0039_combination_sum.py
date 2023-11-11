@@ -15,7 +15,7 @@ class Solution:
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
 
         results = []
-        candidates.sort()
+        # candidates.sort() # TODO: do we really need sorting?
 
         def backtrack(solution: List[int], candidates: List[int]):
             nonlocal results
@@ -34,6 +34,7 @@ class Solution:
                 solution.pop()
 
         def accept(solution: List[int]):
+            # TODO: remove sum
             return sum(solution) == target
 
         def reject(solution: List[int]):
