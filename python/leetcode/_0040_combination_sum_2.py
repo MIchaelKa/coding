@@ -1,6 +1,12 @@
 '''
 _0040_combination_sum_2
 
+Notes:
+Can we benefit from optimizing the search with BFS or A*?
+
+This problem is the same problem as the subset sum problem, which is a famous np-complete problem.
+The only solution is the brute force solution.
+
 Tags:
 #backtracking
 
@@ -13,25 +19,30 @@ class Solution:
 
         results = []
         candidates.sort()
+        print(candidates)
 
-        def backtrack(solution: List[int], candidates: List[int], total: int):
+        def backtrack(solution: List[int], pos: int, total: int):
 
             if total == target:
-                results.append(solution)
+                results.append(list(solution))
 
             if total > target:
                 return
             
-            for i, c in enumerate(candidates):
-                if i > 0 and candidates[i] == candidates[i-1]:
+            for i in range(pos, len(candidates)):
+                if i > pos and candidates[i] == candidates[i-1]:
                     continue
-                new_cand = candidates[i+1:] # vs. pop()
-                solution.append(c)
-                new_total = total + c
-                backtrack(list(solution), new_cand, new_total)
+
+                # outside of reject method if it was
+                if candidates[i] > target:
+                    break
+
+                solution.append(candidates[i])
+                # print(solution, pos+i+1)
+                backtrack(solution, i+1, total+candidates[i])
                 solution.pop()
 
-        backtrack([], candidates, 0)
+        backtrack([], 0, 0)
         
         return results
     
@@ -39,11 +50,11 @@ class Solution:
 def main():
     solution = Solution()
 
-    # candidates = [10,1,2,7,6,1,5]
-    # target = 8
+    candidates = [10,1,2,7,6,1,5]
+    target = 8
 
-    candidates = [2,5,2,1,2]
-    target = 5
+    # candidates = [2,5,2,1,2]
+    # target = 5
 
     print(candidates, target)
     result = solution.combinationSum2(candidates, target)
