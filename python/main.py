@@ -1,5 +1,5 @@
 
-from leetcode.backtracking._0040_combination_sum_2 import main
+from leetcode.backtracking._0079_word_search import main
 
 # from skiena._09_01_derangements import main
 
