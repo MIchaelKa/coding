@@ -69,7 +69,7 @@ class Solution_3:
             counter[n] += 1
 
         #
-        # the implementation below is exactly that heapq.nlargest do
+        # the implementation below is that heapq.nlargest do
         #
 
         counter = list(counter.items())
