@@ -1,5 +1,5 @@
 
-from leetcode.heap._1046_last_stone_weight import main
+from leetcode.heap._0973_k_closest_points import main
 
 # from skiena._09_01_derangements import main
 
