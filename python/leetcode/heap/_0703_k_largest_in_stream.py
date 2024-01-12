@@ -13,26 +13,49 @@ class KthLargest:
     """
         Solution 1.
         Using python heapq
+        
     """
 
-    def __init__(self, k: int, nums: List[int]):
-         
-        self.nums = nums
+    def __init__(self, k: int, nums: List[int]):       
         self.k = k
+        self.heap = heapq.nlargest(k, nums)
 
-        # self.heap = [-x for x in nums]
-        self.heap = nums
+        # TODO: do we need heapify before call nlargest?
         heapq.heapify(self.heap)
+
+    def add(self, val: int) -> int:
+        if len(self.heap) < self.k:
+            heapq.heappush(self.heap, val)
+        else:
+            heapq.heappushpop(self.heap, val)
+
+        res = heapq.nlargest(self.k, self.heap)
+        return res[-1]
+            
         
 
-    def add(self, val: int) -> int:     
-        heapq.heappush(self.heap, val)
-        res = heapq.nlargest(self.k, self.heap)   
-        return res[-1]
-
-
-def main():
+def test_1():
     solution = KthLargest(3, [4,5,8,2])
 
     result = solution.add(3)
     print(result)
+
+    result = solution.add(5)
+    print(result)
+
+def test_2():
+    solution = KthLargest(1, [])
+
+    result = solution.add(-3)
+    print(result)
+
+    result = solution.add(-2)
+    print(result)
+
+    result = solution.add(-4)
+    print(result)
+
+
+def main():
+    test_1()
+    

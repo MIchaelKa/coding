@@ -83,6 +83,7 @@ class Solution_3:
         # push/pop other elements
         for i in range(k, len(counter)):
             c = counter[i]
+            # TODO: use heapq.heappushpop
             heapq.heappush(heap, (c[1], c[0]))
             heapq.heappop(heap)
 
