@@ -1,5 +1,5 @@
 
-from leetcode.dp._0746_min_cost_climbing_stairs import main
+from leetcode.dp._0198_house_robber import main
 
 # from skiena._09_01_derangements import main
 
