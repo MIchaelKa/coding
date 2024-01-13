@@ -1,5 +1,5 @@
 
-from leetcode.heap._0973_k_closest_points import main
+from leetcode.dp._0070_climbing_stairs import main
 
 # from skiena._09_01_derangements import main
 
