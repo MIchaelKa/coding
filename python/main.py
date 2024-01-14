@@ -1,5 +1,5 @@
 
-from leetcode._0057_insert_interval import main
+from leetcode.intervals._0056_merge_intervals import main
 
 # from skiena._09_01_derangements import main
 
