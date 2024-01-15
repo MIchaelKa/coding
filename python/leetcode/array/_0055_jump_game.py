@@ -1,17 +1,22 @@
 """
 [leetcode] 55. Jump Game
 
+_0055_jump_game
+
 You are given an integer array nums. You are initially positioned at the array's first index,
 and each element in the array represents your maximum jump length at that position.
 
 Return true if you can reach the last index, or false otherwise.
+
+#array
+
 """
 
 from typing import List
 
 class Solution:
     """
-    Simple recursion w/o memoization
+        Simple recursion w/o memoization
     """
     def canJump(self, nums: List[int]) -> bool:
         return self.canJumpHelper(nums, 0)
@@ -26,7 +31,11 @@ class Solution:
 
 class Solution2:
     """
-    Recursion with memoization
+        Recursion with memoization
+
+        top-down or bottom up?
+        top-down
+
     """
     def canJump(self, nums: List[int]) -> bool:
         self.cache = [False] * len(nums)
@@ -45,8 +54,8 @@ class Solution2:
 
 class Solution3:
     """
-    DP - bottom-up.
-    (Still not optimal)
+        DP - bottom-up.
+        (Still not optimal)
     """
     def canJump(self, nums: List[int]) -> bool:
         self.cache = [False] * len(nums)
@@ -63,8 +72,9 @@ class Solution3:
 
 class Solution4:
     """
-    DP - ?
-    (Optimal)
+        DP - ?
+        Greedy - ?
+        (Optimal)
     """
     def canJump(self, nums: List[int]) -> bool:
         most_reachable = 0
