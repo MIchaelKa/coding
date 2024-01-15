@@ -1,5 +1,5 @@
 
-from leetcode.intervals._0056_merge_intervals import main
+from leetcode._0053_max_subarray import main
 
 # from skiena._09_01_derangements import main
 
