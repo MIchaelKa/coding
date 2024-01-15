@@ -7,7 +7,7 @@ _0053_max_subarray
 
 from typing import List
 
-class Solution:
+class Solution_1:
     """
         Solution 1
         divide and conquer
@@ -64,15 +64,70 @@ class Solution:
             else:
                 return left[0], left[1], sum(right)+left[2]
         
+class Solution:
+    """
+        Greedy
+    """
+    
+    def maxSubArray(self, nums: List[int]) -> int:
+
+        cur_sum = nums[0]
+        total_sum = nums[0]
+        low = 0
+        high = 1
+
+        for i in range(1, len(nums)):
+
+            if total_sum < 0 and nums[i] > cur_sum:
+                print(total_sum, cur_sum, nums[i])
+                low = high = i
+                cur_sum = nums[i]
+                total_sum = nums[i]
+                continue
+
+            total_sum += nums[i]
+
+            if total_sum > cur_sum:
+                cur_sum = total_sum
+                high = i
+
+        print(low, high)
+
+        return cur_sum
+    
+def run_tests(solution):
+
+    nums = [-2,1,-3,4,-1,2,1,-5,4]
+    assert(solution.maxSubArray(nums) == 6)
+
+    nums = [-2,2,-1,5,-6,4,-5]
+    assert(solution.maxSubArray(nums) == 6)
+
+    nums = [5,4,-1,7,8]
+    assert(solution.maxSubArray(nums) == 23)
+
+    nums = [-3,-2,-1]
+    assert(solution.maxSubArray(nums) == -1)
+
+    nums = [-2,-3,-1]
+    assert(solution.maxSubArray(nums) == -1)
+
+    nums = [0,-3,1,1]
+    assert(solution.maxSubArray(nums) == 2)
+
+    nums = [-1,-2]
+    assert(solution.maxSubArray(nums) == -1)
+
+    print("test passed!")
 
 
 def main():
 
     solution = Solution()
 
-    # nums = [-2,1,-3,4,-1,2,1,-5,4]
-    # nums = [-2,2,-1,5,-6,4,-5]
-    nums = [5,4,-1,7,8]
+    run_tests(solution)
+
+    nums = [8,-19,5,-4,20]
 
     print(nums)
     result = solution.maxSubArray(nums)
