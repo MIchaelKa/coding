@@ -12,61 +12,50 @@ class Solution_1:
         Solution 1
         divide and conquer
 
-        Not works.
+        Takeaways:
+        - Try do not make complex base cases for n>1
+
     """
     def maxSubArray(self, nums: List[int]) -> int:
-        return self.maxSubArrayHelper(nums, 0, len(nums)-1, 3)[0]
+        return self.maxSubArrayHelper(nums, 0, len(nums)-1)
     
-    def maxSubArrayHelper(self, nums: List[int], low: int, high: int, direction: int) -> (int, int, int):
-        """
-            Returns:
-                - (int, int, int): tuple representing (max sum, left residual, right residual)
-        """
+    def maxSubArrayHelper(self, nums: List[int], low: int, high: int) -> int:
 
-        if high-low == 0:
-            return nums[low], 0 , 0
-        
-        if high-low == 1:
-            if nums[low] > 0 and nums[high] > 0:
-                return nums[low]+nums[high], 0, 0
-            elif nums[low] > 0:
-                return nums[low], 0, nums[high]
-            elif nums[high] > 0:
-                return nums[high], nums[low], 0
-            else:
-                if nums[low] < nums[high]:
-                    return nums[high], nums[low], 0
-                else:
-                    return nums[low], 0, nums[high]
-                
-        
+        if high==low:
+            return nums[low]
+                    
         mid = (high+low) // 2
-        left = self.maxSubArrayHelper(nums, low, mid, 1)
-        right = self.maxSubArrayHelper(nums, mid+1, high, 2)
+        left = self.maxSubArrayHelper(nums, low, mid)
+        right = self.maxSubArrayHelper(nums, mid+1, high)
+        cross = self.maxCrossingSubArray(nums, low, mid, high)
 
-        merge_sum = left[0] + left[2] + right[1] + right[0]
+        return max(left, right, cross)
 
-        if direction==1:
-            if merge_sum > right[0]:
-                return merge_sum, left[1], right[2]
-            else:
-                return right[0], sum(left)+right[1], right[2]
-        elif direction==2:
-            if merge_sum > left[0]:
-                return merge_sum, left[1], right[2]
-            else:
-                return left[0], left[1], sum(right)+left[2]    
-        else:
-            if merge_sum > left[0] and merge_sum > right[0]:
-                return merge_sum, left[1], right[2]
-            elif right[0] > left[0]:
-                return right[0], sum(left)+right[1], right[2]
-            else:
-                return left[0], left[1], sum(right)+left[2]
+    def maxCrossingSubArray(self, nums: List[int], low: int, mid: int, high: int) -> int:
+
+        max_left_sum = nums[mid]
+        curr_sum = max_left_sum
+
+        for i in range(mid-1, low-1, -1):
+            curr_sum += nums[i]
+            if curr_sum > max_left_sum:
+                max_left_sum = curr_sum
+
+        max_right_sum = nums[mid+1]
+        curr_sum = max_right_sum
+
+        for i in range(mid+2, high+1):
+            curr_sum += nums[i]
+            if curr_sum > max_right_sum:
+                max_right_sum = curr_sum
+
+        return max_left_sum + max_right_sum
         
 class Solution:
     """
         Greedy
+
+        Not works.
     """
     
     def maxSubArray(self, nums: List[int]) -> int:
@@ -123,10 +112,11 @@ def run_tests(solution):
 
 def main():
 
-    solution = Solution()
+    solution = Solution_1()
 
     run_tests(solution)
 
+    # nums = [-2,1,-3,4,-1,2,1,-5,4]
     nums = [8,-19,5,-4,20]
 
     print(nums)
