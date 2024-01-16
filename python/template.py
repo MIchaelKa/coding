@@ -6,7 +6,7 @@ from typing import List
 
 class Solution:
     """
-        Solution 1.
+        Solution.
 
         Complexity:
             time:

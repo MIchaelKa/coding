@@ -8,6 +8,9 @@ and each element in the array represents your maximum jump length at that positi
 
 Return true if you can reach the last index, or false otherwise.
 
+Takeaways:
+- Sometimes it easy to get optimal greedy solution after bottom-up dp.
+
 #array
 
 """
