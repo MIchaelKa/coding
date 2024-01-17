@@ -1,5 +1,5 @@
 
-from leetcode.bit._0191_number_of_1_bits import main
+from leetcode.array._0049_group_anagrams import main
 
 # from skiena._09_01_derangements import main
 

@@ -59,6 +59,10 @@ class Solution_3:
     """
         Solution_3.
         Use python heapq more wisely
+
+        Complexity:
+            time: O(n*log(n))
+            memory: O(n)
     
     """
 
@@ -93,6 +97,12 @@ class Solution_3:
             result.append(heapq.heappop(heap)[1])
 
         return result
+    
+class Solution_4:
+    """
+        TODO: solution w/o using heap
+    """
+    pass
 
 
 if __name__ == '__main__':
