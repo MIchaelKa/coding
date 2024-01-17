@@ -2,7 +2,7 @@
 _0049_group_anagrams
 
 Takeaways:
-- pythjon list as dict key (for optimal solution)
+- python list as dict key (for optimal solution)
 
 #array
 

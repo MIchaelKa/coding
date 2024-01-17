@@ -1,5 +1,5 @@
 
-from leetcode.array._0049_group_anagrams import main
+from leetcode.array._0036_valid_sudoku import main
 
 # from skiena._09_01_derangements import main
 
