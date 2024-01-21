@@ -1,5 +1,5 @@
 
-from leetcode.binary_search._0033_search_in_rot_array import main
+from leetcode._0567_permutation_in_str import main
 
 # from skiena._09_01_derangements import main
 
