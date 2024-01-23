@@ -4,6 +4,8 @@ _0138_copy_list_w_rand_ptr
 Takeaways:
 - id(object) as a key for python dict
 
+#linked_list
+
 """
 
 from typing import List, Optional
