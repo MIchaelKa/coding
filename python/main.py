@@ -1,5 +1,5 @@
 
-from leetcode.trees._0199_right_side_view import main
+from leetcode.graph._0200_number_of_islands import main
 
 # from skiena._09_01_derangements import main
 
