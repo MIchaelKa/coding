@@ -1,4 +1,15 @@
+"""
+_0207_course_schedule
+
+Takeaways:
+
+#graph
+
+"""
+
+
 from __future__ import annotations
+from typing import List
 
 class GraphSolver:
 
@@ -43,9 +54,45 @@ class GraphSolver:
 
         return True
 
+class Solution:
+    """
+    Implementation 2.
+    Re-implementation of above.
+    """
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+
+        self.graph = [[] for _ in range(numCourses)]
+
+        for i, j in prerequisites:
+            self.graph[i].append(j)
+
+        # print(self.graph)
+
+        self.discovered = [False] * numCourses
+        self.processed = [False] * numCourses
+
+        for i in range(numCourses):
+            if not self.processed[i] and not self.dfs(i):
+                return False
+            
+        return True
+
+    def dfs(self, vertex: int):
+
+        for v in self.graph[vertex]:
+
+            if not self.discovered[v]:
+                self.discovered[v] = True
+                if not self.dfs(v):
+                    return False
+            elif not self.processed[v]:
+                return False
+        
+        self.processed[vertex] = True
+            
+        return True
     
-def run_test():
-    solver = GraphSolver()
+def run_tests(solver):
     
     prerequisites = [[1,0],[0,1]]
     numCourses = 2
@@ -69,5 +116,20 @@ def run_test():
 
     print("test passed")
         
-if __name__ == '__main__':
-    run_test()
+
+def main():
+
+    solution = Solution()
+
+    run_tests(solution)
+
+    prerequisites = [[0,1], [1,4],[1,2],[2,3],[3,4],[3,1]]
+    prerequisites = [[0,1], [1,4],[1,2],[2,3],[3,4]]
+    numCourses = 5
+
+    prerequisites = [[0,1],[1,2],[2,3],[3,4],[5,6],[6,7],[7,8],[8,6],[7,3]]
+    numCourses = 9
+
+    print(prerequisites)
+    result = solution.canFinish(numCourses, prerequisites)
+    print(result)
