@@ -3,7 +3,7 @@ _0207_course_schedule
 
 Takeaways:
 
-#graph
+#graph, #dfs
 
 """
 
@@ -85,8 +85,12 @@ class Solution:
                 self.discovered[v] = True
                 if not self.dfs(v):
                     return False
+            # why we don't need to check parent here? - all edges appear only once
+            # do we need check for processed? - yes we need
             elif not self.processed[v]:
                 return False
+            # else:
+            #     return False
         
         self.processed[vertex] = True
             

@@ -4,7 +4,7 @@ _0994_rotting_oranges
 Takeaways:
 - BFS as a multisource search
 
-#graph
+#graph, #bfs
 
 """
 
