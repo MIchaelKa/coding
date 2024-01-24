@@ -1,5 +1,5 @@
 
-from leetcode.graph._0200_number_of_islands import main
+from leetcode.graph._0994_rotting_oranges import main
 
 # from skiena._09_01_derangements import main
 

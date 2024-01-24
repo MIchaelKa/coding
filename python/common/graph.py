@@ -157,7 +157,7 @@ class Graph:
                     self.process_edge(vertex, y)
                 
                 if not discovered[y]:
-                    queue.append(y)  # what about += and add all vertices at one time?
+                    queue.append(y)
                     discovered[y] = True
                     self.parent[y] = vertex
                     
