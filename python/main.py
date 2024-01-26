@@ -1,5 +1,5 @@
 
-from yandex._0009_students import main
+from yandex._0178_stump import main
 
 # from skiena._09_01_derangements import main
 

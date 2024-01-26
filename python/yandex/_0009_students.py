@@ -28,21 +28,21 @@ def main():
     edges = [
     ]
 
-    V, E = (9, 7)
-    edges = [
-        #comp 1
-        [1,2],
-        [2,3],
-        [2,4],
-        [4,5],
-        [4,6],
-        # [6,2],
+    # V, E = (9, 7)
+    # edges = [
+    #     #comp 1
+    #     [1,2],
+    #     [2,3],
+    #     [2,4],
+    #     [4,5],
+    #     [4,6],
+    #     # [6,2],
 
-        # comp 2
-        [7,8],
-        [8,9],
-        # [9,7],
-    ]
+    #     # comp 2
+    #     [7,8],
+    #     [8,9],
+    #     # [9,7],
+    # ]
 
     result = solver(V, E, edges)
     print('YES' if result else 'NO')
@@ -85,4 +85,4 @@ def solver(V, E, edges):
                     return False
 
 
-    return True
+    return V > 0 and E > 0
