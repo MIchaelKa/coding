@@ -1,5 +1,5 @@
 
-from leetcode.dp._0322_coin_change import main
+from leetcode.dp._0152_max_product_subarray import main
 
 # from skiena._09_01_derangements import main
 
