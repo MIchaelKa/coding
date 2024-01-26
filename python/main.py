@@ -1,5 +1,5 @@
 
-from leetcode.dp._0152_max_product_subarray import main
+from dp.max_cost_path import main
 
 # from skiena._09_01_derangements import main
 

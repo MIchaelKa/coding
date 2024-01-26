@@ -38,3 +38,10 @@ def quick_search(nums: list[int], target: int) -> int:
     else:
         # print("R", nums[:i-1])
         return quick_search(nums[:i], target)
+    
+def print_cost_matrix(matrix: list[list[int]]) -> None:
+    for i in range(len(matrix)):
+        print("[", end="")
+        for j in range(len(matrix[i])):
+            print(f"{matrix[i][j]:3d}", end="")
+        print("]")
