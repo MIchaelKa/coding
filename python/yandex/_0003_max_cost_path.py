@@ -1,9 +1,11 @@
 """
-max_cost_path
+_0003_max_cost_path
 
 https://coderun.yandex.ru/problem/print-the-route-of-the-maximum-cost
 
 Takeaways:
+
+#dp
 
 """
 

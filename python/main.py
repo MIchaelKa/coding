@@ -1,5 +1,5 @@
 
-from dp.max_cost_path import main
+from yandex._0009_students import main
 
 # from skiena._09_01_derangements import main
 

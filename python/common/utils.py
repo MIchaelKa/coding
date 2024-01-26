@@ -17,7 +17,6 @@ def binary_search(nums: list[int], target: int) -> int:
             
     return None
 
-
 #
 # Recursive attempt to implement binary_search
 #
@@ -38,7 +37,10 @@ def quick_search(nums: list[int], target: int) -> int:
     else:
         # print("R", nums[:i-1])
         return quick_search(nums[:i], target)
-    
+
+#
+# DP Utils
+#
 def print_cost_matrix(matrix: list[list[int]]) -> None:
     for i in range(len(matrix)):
         print("[", end="")
