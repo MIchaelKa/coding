@@ -18,11 +18,30 @@ def main():
     # print(edges)
 
     V, E = (3, 3)
-
     edges = [
         [1,2],
         [2,3],
         [1,3],
+    ]
+
+    V, E = (1, 0)
+    edges = [
+    ]
+
+    V, E = (9, 7)
+    edges = [
+        #comp 1
+        [1,2],
+        [2,3],
+        [2,4],
+        [4,5],
+        [4,6],
+        # [6,2],
+
+        # comp 2
+        [7,8],
+        [8,9],
+        # [9,7],
     ]
 
     result = solver(V, E, edges)
@@ -38,7 +57,7 @@ def solver(V, E, edges):
     for i, j in edges:
         graph[i-1].append(j-1)
 
-    # print(graph)
+    print(graph)
 
     queue = deque()
 
@@ -53,7 +72,7 @@ def solver(V, E, edges):
         while queue:
 
             v = queue.popleft()
-            color = 1 - color
+            color = colors[v] - color
 
             # print(colors, color)
 
@@ -64,5 +83,6 @@ def solver(V, E, edges):
                     queue.append(e)
                 elif colors[e] == colors[v]:
                     return False
+
 
     return True
