@@ -1,5 +1,5 @@
 
-from yandex._0178_stump import main
+from leetcode.dp._1143_lcs import main
 
 # from skiena._09_01_derangements import main
 

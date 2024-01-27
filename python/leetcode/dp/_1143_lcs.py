@@ -1,4 +1,6 @@
 """
+_1143_lcs
+
 [leetcode] 1143. Longest Common Subsequence
 LCS
 
@@ -14,10 +16,10 @@ A common subsequence of two strings is a subsequence that is common to both stri
 
 from functools import lru_cache
 
-class Solution:
+class Solution_1:
     """
-    Simple recursion w/o memoization
-    (using @lru_cache for built-in memoization functionality)
+        Simple recursion w/o memoization
+        (using @lru_cache for built-in memoization functionality)
     """
     def longestCommonSubsequence(self, text1: str, text2: str) -> int:
         return self.longestCommonSubsequenceHelper(text1, text2, 0, 0)
@@ -36,6 +38,25 @@ class Solution:
             b = self.longestCommonSubsequenceHelper(text1, text2, i, j+1)
             # c = self.longestCommonSubsequenceHelper(text1, text2, i+1, j+1) # do not need
             return max(a,b)
+        
+class Solution:
+    """
+        DP.
+    """
+
+    def longestCommonSubsequence(self, text1: str, text2: str) -> int:
+
+        dp = [[0]*(len(text2)+1) for _ in range(len(text1)+1)]
+
+        for i in range(1, len(text1)+1):
+            for j in range(1, len(text2)+1):
+                if (text1[i-1]==text2[j-1]):
+                    dp[i][j] = dp[i-1][j-1] + 1
+                else:
+                    dp[i][j] = max(dp[i][j-1], dp[i-1][j])
+
+        return dp[-1][-1]
+
 
 def run_tests(solution):
 
@@ -48,7 +69,7 @@ def run_tests(solution):
     print("Tests passed!")
 
 
-if __name__ == '__main__':
+def main():
 
     solution = Solution()
 
