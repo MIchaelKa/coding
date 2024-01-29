@@ -1,5 +1,5 @@
 
-from leetcode._0054_spiral_matrix import main
+from leetcode.array._0003_lswrc import main
 
 # from skiena._09_01_derangements import main
 
