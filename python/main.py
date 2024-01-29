@@ -1,5 +1,5 @@
 
-from leetcode.dp._1143_lcs import main
+from leetcode._0298_implement_trie import main
 
 # from skiena._09_01_derangements import main
 
