@@ -9,7 +9,7 @@ Takeaways:
 
 from typing import List
 
-class Solution:
+class Solution_1:
     """
         Solution. Naive.
 
@@ -37,6 +37,32 @@ class Solution:
             hash_map = {}
 
         return max_len
+    
+class Solution:
+    """
+        Solution. Improved.
+
+        Complexity:
+            time: O(n)
+            memory: O(n)
+    """
+    def lengthOfLongestSubstring(self, s: str) -> int:
+
+        hash_map = {}
+        max_len = 0
+        low = 0
+    
+        for i in range(0, len(s)):
+            if s[i] in hash_map:
+                for j in range(low, hash_map[s[i]]+1):
+                    hash_map.pop(s[j])
+                low = j+1
+            
+            hash_map[s[i]] = i
+
+            max_len = max(max_len, i-low+1)
+
+        return max_len
 
 def run_tests(solution):
     print("test passed!")
@@ -47,9 +73,9 @@ def main():
 
     run_tests(solution)
 
-    # s = "abcbed"
+    s = "abcbed"
     # s = "pwwkew"
-    s = ""
+    # s = ""
 
     print(s)
     result = solution.lengthOfLongestSubstring(s)
