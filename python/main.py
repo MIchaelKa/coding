@@ -1,5 +1,5 @@
 
-from leetcode._0298_implement_trie import main
+from leetcode._0139_word_break import main
 
 # from skiena._09_01_derangements import main
 

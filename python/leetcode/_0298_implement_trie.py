@@ -6,6 +6,8 @@ Takeaways:
 Notes:
 - Implement w/o recursion
 
+#trie, #data_struct
+
 """
 
 from typing import List
