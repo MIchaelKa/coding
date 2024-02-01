@@ -1,5 +1,5 @@
 
-from leetcode.array._0003_lswrc import main
+from leetcode._0073_set_matrix_zero import main
 
 # from skiena._09_01_derangements import main
 
