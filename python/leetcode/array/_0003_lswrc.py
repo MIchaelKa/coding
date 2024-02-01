@@ -59,7 +59,6 @@ class Solution:
                 low = j+1
             
             hash_map[s[i]] = i
-
             max_len = max(max_len, i-low+1)
 
         return max_len

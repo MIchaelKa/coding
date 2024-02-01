@@ -12,6 +12,9 @@ some characters (can be none) deleted without changing the relative order of the
 
 For example, "ace" is a subsequence of "abcde".
 A common subsequence of two strings is a subsequence that is common to both strings.
+
+#dp, #subsequence
+
 """
 
 from functools import lru_cache
