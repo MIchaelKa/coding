@@ -1,7 +1,11 @@
 """
 _0567_permutation_in_str
 
+https://leetcode.com/problems/permutation-in-string/description/
+
 Takeaways:
+
+TODO: reimplement with O(26) memory dict
 
 """
 
