@@ -11,8 +11,8 @@ class Solution:
         Solution.
 
         Complexity:
-            time:
-            memory:
+            time: O()
+            memory: O()
     """
     pass
 
