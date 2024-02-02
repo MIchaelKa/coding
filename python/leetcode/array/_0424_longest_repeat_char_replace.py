@@ -11,18 +11,20 @@ heap + hash_map search
 I didn't use the fact that only english uppercase letter is possible.
 O(26) for search in counter
 
+Links:
+_0003_lswrc
+
 Tags:
 #array, #sliding_window
 
 '''
 
-class Solution:
+class Solution_1:
     """
-    Solution 1.
+        Solution 1.
 
-    Notes:
-    It should take ~10 lines of codes
-    
+        Notes:
+        It should take ~10 lines of codes
     """
 
     def characterReplacement(self, s: str, k: int) -> int:
@@ -33,7 +35,7 @@ class Solution:
         max_len = 1
 
         max_char = s[0]
-        max_count = 1 # maxf we don't have to update it if it decrease
+        max_count = 1 # maxf - we don't have to update it if it decrease
 
         for i in range(1, len(s)):
 
@@ -86,7 +88,39 @@ class Solution:
             max_len = max(max_len, i-start+1)
  
         return max_len
-    
+
+
+class Solution:
+    """
+        Solution 2. Improved readability.
+
+        Complexity:
+            time: O(n*26)
+            memory: O(26)
+    """
+    def characterReplacement(self, s: str, k: int) -> int:
+
+        low = 0
+        counter = {}
+        counter[s[low]] = 1
+
+        max_len = 1
+
+        for high in range(1, len(s)):
+
+            counter[s[high]] = counter.get(s[high], 0) + 1
+
+            # TODO: remove while, keep max_freq
+            while high-low+1 - max(counter.values()) > k:
+                counter[s[low]] -= 1
+                low += 1
+
+            max_len = max(max_len, high-low+1)
+
+        return max_len
+
+
+
 def run_tests(solution):
 
     s = "ABBDBBA"
@@ -112,8 +146,8 @@ def main():
 
     run_tests(solution)
 
-    s = "BAAA"
-    k = 0
+    s = "ABBDBBA"
+    k = 1
 
     print(s, k)
     answer = solution.characterReplacement(s, k)  
