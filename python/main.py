@@ -1,5 +1,5 @@
 
-from leetcode._0875_koko_eating_bananas import main
+from leetcode.trees._230_k_smallest_in_tree import main
 
 # from skiena._09_01_derangements import main
 
