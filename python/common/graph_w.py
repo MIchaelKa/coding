@@ -119,7 +119,7 @@ class GraphW():
                 print(f"MST edge: {self.parent[v]}-{v} [{dist}]")
 
             # Операция присоединения нового ребра к MST
-            # Проверяем ребра только тут и запоминаем информацию о 
+            # Проверяем ребра только тут, и запоминаем информацию о 
             # самом лучшем варианте для присоединения данной вершины
             for edge in self.edges[v]:
                 if edge.weight < distance[edge.v] and not intree[edge.v]:
@@ -172,7 +172,11 @@ class GraphW():
                     print(f"edge: {self.parent[v]}-{v} [{dist}]")
 
             for edge in self.edges[v]:
+
+                # Главное отличие от алгоритма Прима.
+                # distance[v] - всегда одинаковый в этом цикле, но мы сравниваем с другими distance
                 new_dist = edge.weight + distance[v]
+
                 if new_dist < distance[edge.v] and not intree[edge.v]:
                     distance[edge.v] = new_dist
                     self.parent[edge.v] = v
