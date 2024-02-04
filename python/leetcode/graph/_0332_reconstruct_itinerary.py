@@ -1,5 +1,5 @@
 """
-_332_reconstruct_itinerary
+_0332_reconstruct_itinerary
 
 Takeaways:
 - defaultdict of defaultdict
@@ -15,11 +15,11 @@ import heapq
 
 class Solution:
     """
-        Solution. Not works.
+        DFS and backtracking.
 
         Complexity:
-            time: O()
-            memory: O()
+            time: O((E+V)^d), d - the max number of flights from an airport
+            memory: O(E+V)
     """
     def findItinerary(self, tickets: List[List[str]]) -> List[str]:
 
