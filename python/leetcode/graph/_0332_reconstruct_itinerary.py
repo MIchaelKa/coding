@@ -3,6 +3,7 @@ _0332_reconstruct_itinerary
 
 Takeaways:
 - defaultdict of defaultdict
+- dfs + heap
 
 TODO:
 - Add condition to detect that we found optimal path

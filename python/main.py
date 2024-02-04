@@ -1,5 +1,5 @@
 
-from leetcode.graph._0332_reconstruct_itinerary import main
+from leetcode.graph._0743_network_delay_time import main
 
 # from skiena._09_01_derangements import main
 
