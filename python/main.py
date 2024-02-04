@@ -1,5 +1,5 @@
 
-from leetcode._0846_hand_of_straights import main
+from leetcode._0494_target_sum import main
 
 # from skiena._09_01_derangements import main
 
