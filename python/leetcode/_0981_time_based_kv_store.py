@@ -13,8 +13,11 @@ import bisect
 
 class TimeMap:
     """
-        bisect + list + sort()
-        TLE
+        bisect + list
+
+        + sort() = TLE
+        no need for sorting
+
     """
 
     def __init__(self):
@@ -25,7 +28,8 @@ class TimeMap:
 
     def get(self, key: str, timestamp: int) -> str:
         # delayed sorting
-        self.store[key].sort()
+        # does specifying key will increase performance if compound values are stored?
+        # self.store[key].sort(key=lambda x: x[0])
 
         # binary search
         index = bisect.bisect_right(self.store[key], timestamp, key=lambda x: x[0])
@@ -52,8 +56,9 @@ def main():
 
     # 2
 
-    timeMap.set("foo", "A", 4)
+    # timeMap.set("foo", "A", 4)
     timeMap.set("foo", "B", 1)
+    timeMap.set("foo", "A", 4)
     timeMap.set("foo", "C", 7)
 
-    print(timeMap.get("foo", 8))
+    print(timeMap.get("foo", 4))
