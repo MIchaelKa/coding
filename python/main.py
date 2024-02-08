@@ -1,5 +1,5 @@
 
-from leetcode.array._0334_incresing_triplets import main
+from leetcode.matrix._0221_max_square import main
 
 # from skiena._09_01_derangements import main
 
