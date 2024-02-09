@@ -3,6 +3,7 @@ _0443_string_compression
 
 Takeaways:
 - Better use for loop, if cases more than one
+- Take care about last element
 
 """
 

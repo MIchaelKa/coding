@@ -19,21 +19,17 @@ class Solution:
 
         zero_index = 0
         digit_index = 0
+
+        while zero_index < len(nums) and nums[zero_index] != 0:
+            zero_index += 1
+
+        digit_index = zero_index+1
         
         while digit_index < len(nums):
-
-            while zero_index < len(nums) and nums[zero_index] != 0:
-                zero_index += 1
-
-            digit_index = zero_index+1
-
-            while digit_index < len(nums) and nums[digit_index] == 0:
-                digit_index += 1
-
-            if zero_index < len(nums) and digit_index < len(nums):
+            if nums[digit_index] != 0:
                 nums[zero_index], nums[digit_index] = nums[digit_index], nums[zero_index]
                 zero_index += 1
-                digit_index += 1
+            digit_index += 1
 
 
 def run_tests(solution):
@@ -45,8 +41,8 @@ def main():
 
     run_tests(solution)
 
-    # nums = [1,3,0,0,4,5,0,0,0,6,7,8]
-    nums = [0,1,0,3,12]
+    nums = [1,3,0,0,4,5,0,0,0,6,7,8]
+    # nums = [0,1,0,3,12]
 
     print(nums)
     solution.moveZeroes(nums)
