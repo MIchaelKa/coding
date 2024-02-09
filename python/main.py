@@ -1,5 +1,5 @@
 
-from leetcode.string._0443_string_compression import main
+from leetcode.array._0283_move_zeros import main
 
 # from skiena._09_01_derangements import main
 
