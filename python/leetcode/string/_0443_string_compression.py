@@ -13,8 +13,8 @@ class Solution:
         Solution.
 
         Complexity:
-            time: O()
-            memory: O()
+            time: O(n)
+            memory: O(1)
     """
     def compress(self, chars: List[str]) -> int:
 
@@ -22,27 +22,16 @@ class Solution:
         count = 0
         low = 0
 
-        for i in range(0, len(chars)):
+        for i in range(0, len(chars)+1):
+
+            char = chars[i] if i < len(chars) else None
       
-            if chars[i] == prev:
+            if char == prev:
                 count += 1
             else:
                 chars[low] = prev
                 low += 1
-                prev = chars[i]
-
-                if count > 1:
-                    count_list = list(str(count))
-                    for c in count_list:
-                        chars[low] = c
-                        low += 1
-
-                count = 1
-
-            if i == len(chars) - 1:
-                chars[low] = prev
-                low += 1
-                prev = chars[i]
+                prev = char
 
                 if count > 1:
                     count_list = list(str(count))
@@ -63,8 +52,8 @@ def main():
 
     run_tests(solution)
 
-    chars = ["a","a","b","b","c","c","c"]
-    chars = ["a","a","b","b","c","c","c","b"]
+    # chars = ["a","a","b","b","c","c","c"]
+    # chars = ["a","a","b","b","c","c","c","b"]
     chars = ["a","b","b","b","b","b","b","b","b","b","b","b","b"]
     # chars = ["a"]
 
