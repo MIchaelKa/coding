@@ -1,5 +1,5 @@
 
-from leetcode.matrix._0221_max_square import main
+from leetcode.string._0443_string_compression import main
 
 # from skiena._09_01_derangements import main
 
