@@ -31,7 +31,7 @@ class Solution:
                 cache[i][k-nums[i]] += v
 
         if target in cache[-1]:
-            return  cache[-1][target]
+            return cache[-1][target]
 
         return 0
 
