@@ -1,5 +1,5 @@
 
-from leetcode.array._0283_move_zeros import main
+from leetcode.array._1004_max_consecutive_ones import main
 
 # from skiena._09_01_derangements import main
 
