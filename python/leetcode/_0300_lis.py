@@ -6,6 +6,9 @@ Given an integer array nums, return the length of the longest strictly increasin
 
 A subsequence is an array that can be derived from another array by deleting some or
 no elements without changing the order of the remaining elements.
+
+#dp, #subsequence
+
 """
 
 from typing import List
