@@ -8,7 +8,6 @@ Takeaways:
 """
 
 from common.tree import *
-from typing import List
 
 class Solution:
     """
