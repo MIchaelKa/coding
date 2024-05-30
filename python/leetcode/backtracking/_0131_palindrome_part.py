@@ -3,6 +3,8 @@ _0131_palindrome_part
 
 Takeaways:
 
+#palindrom
+
 """
 
 from typing import List
