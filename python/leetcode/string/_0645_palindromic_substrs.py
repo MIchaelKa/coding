@@ -13,7 +13,7 @@ _0005_longest_palindromic_substr
 
 from common.utils import print_cost_matrix
 
-class Solution:
+class Solution_1:
     """
         DP.
 
@@ -47,6 +47,45 @@ class Solution:
 
         # print_cost_matrix(dp)
                 
+        return count
+    
+
+class Solution:
+    """
+        Expand from centers.
+
+        Complexity:
+            time: O(n^2)
+            memory: O(1)
+
+    """
+
+    def expand(self, s: str, i: int, j: int):
+
+        count = 0
+
+        while i >= 0 and j < len(s):
+            if s[i] == s[j]:
+                count += 1
+            else:
+                break
+            i -= 1
+            j += 1
+
+        return count
+
+    def countSubstrings(self, s: str) -> int:
+
+        count = 0
+
+        for i in range(len(s)):
+            count += self.expand(s,i,i)
+            # print(s[i], count)
+
+        for i in range(len(s)-1):
+            count += self.expand(s,i,i+1)
+            # print(s[i], s[i+1], count)
+     
         return count
 
 def run_tests(solution):
