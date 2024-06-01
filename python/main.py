@@ -1,5 +1,5 @@
 
-from leetcode.array._0080_remove_dups_from_array_2 import main
+from leetcode.array._0169_majority_element import main
 
 # from skiena._09_01_derangements import main
 
