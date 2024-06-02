@@ -4,7 +4,7 @@ _0215_k_largest_in_array
 Takeaways:
 - Quickselect
 
-#heap, #quickselect
+#array, #heap, #quickselect
 
 """
 
@@ -54,7 +54,7 @@ class Solution:
             return self.findKthLargestHelper(nums, k, low, pivot-1)
     
     def partition(self, nums: List[int], low: int, high: int) -> int:
-        pivot = nums[high]    
+        pivot = nums[high]
         l, h = low, high
 
         while l < h:
@@ -95,6 +95,10 @@ def main():
     # nums = [3,2,3,1,2,4,5,5,6]
     # k = 4
 
+    nums = [1,3,1,1,4,1,1,5,5,5,5,5,5,1,1,6,2,2]
+    k=2
+
     print(nums, k)
+    print(sorted(nums), k)
     result = solution.findKthLargest(nums, k)
     print(result)

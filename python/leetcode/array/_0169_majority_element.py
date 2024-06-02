@@ -4,11 +4,12 @@ _0169_majority_element
 Takeaways:
 - Quickselect w/o recursion
 - Partition with repeated numbers
+- Odd and even cases, better separate and write variant for one
 
 Related problems:
 _0215_k_largest_in_array
 
-#quickselect
+#array, #quickselect
 
 """
 
@@ -26,7 +27,9 @@ class Solution:
     """
 
     def partition_2(self, nums: List[int], l: int, h: int) -> int:
-        pivot = nums[h]    
+        pivot = nums[h]
+        
+        print(1, nums, l, h)
         while l < h:
             while nums[l] <= pivot and l < h:
                 l += 1
@@ -34,6 +37,8 @@ class Solution:
                 h -= 1
             if l < h:
                 nums[l], nums[h] = nums[h], nums[l]
+
+        print(2, nums, l, h)
         return l
 
     def partition_1(self, nums: List[int], low: int, high: int) -> int:
@@ -42,9 +47,9 @@ class Solution:
 
         pivot = nums[high]
         while low < high:         
-            if nums[low] <= pivot:
+            if nums[low] <= pivot and low < high:
                 low += 1
-            elif nums[high] > pivot:
+            elif nums[high] >= pivot and low < high:
                 high -= 1
             else:
                 nums[low], nums[high] = nums[high], nums[low]
@@ -54,13 +59,14 @@ class Solution:
         print(2, nums, low, high)
         # print(list(range(13)))
 
+        return low
+
         pivot_index = min(low, high)
         return pivot_index+1 if nums[pivot_index] <= pivot else pivot_index
     
 
     def majorityElement(self, nums: List[int]) -> int:
 
-        pivot = 0
         low = 0
         high = len(nums)-1
 
@@ -71,7 +77,7 @@ class Solution:
         # return 0
 
         while low < high:
-            pivot = self.partition_1(nums, low, high)
+            pivot = self.partition_2(nums, low, high)
 
             print(pivot)
 
@@ -101,8 +107,10 @@ def main():
     # nums = [2,2,1,1,1,2,2,3]
     # nums = [1,2,3,2,1,2,3,2]
     # nums = [3]
+    # nums = [1,3,1,1,4,1,1,5,1,1,6,2,2]
 
-    nums = [1,3,1,1,4,1,1,5,1,1,6,2,2]
+    nums = [1,7,8,2,3,9,5]
+    nums = [1,8,8,2,3,8,8]
 
     print(nums)
     result = solution.majorityElement(nums)
