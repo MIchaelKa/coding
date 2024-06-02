@@ -102,3 +102,6 @@ def main():
     print(sorted(nums), k)
     result = solution.findKthLargest(nums, k)
     print(result)
+
+if __name__ == '__main__':
+    main()

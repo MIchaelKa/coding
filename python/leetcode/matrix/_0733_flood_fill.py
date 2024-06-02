@@ -13,7 +13,7 @@ Related problems:
 
 from typing import List
 
-from common.utils import print_cost_matrix
+from python.common.utils import print_cost_matrix
 from collections import deque
 
 class Solution:
@@ -80,3 +80,6 @@ def main():
     result = solution.floodFill(image, sr, sc, color)
 
     print_cost_matrix(result)
+
+if __name__ == '__main__':
+    main()
