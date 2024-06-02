@@ -15,7 +15,7 @@ _0215_k_largest_in_array
 
 from typing import List
 
-class Solution:
+class Solution_1:
     """
         Quickselect.
 
@@ -40,7 +40,7 @@ class Solution:
             if l < h:
                 nums[l], nums[h] = nums[h], nums[l]
 
-        nums[l], nums[high] = nums[high], nums[l]
+        nums[l], nums[high] = nums[high], nums[l] # important even for this problem
 
         # print(2, nums, l, h)
         
@@ -98,6 +98,22 @@ class Solution:
                 return nums[half_len]
       
         return nums[half_len]
+    
+class Solution:
+    """
+        Hashmap
+    """
+    def majorityElement(self, nums: List[int]) -> int:
+
+        counter = {}
+        target_len = len(nums) // 2 + int(len(nums) % 2 != 0) # ceil
+
+        for n in nums:
+            counter[n] = counter.get(n,0) + 1
+            if counter[n] >= target_len:
+                return n
+
+
 
 def run_tests(solution):
     print("test passed!")
