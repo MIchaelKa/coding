@@ -19,17 +19,19 @@ class Solution:
     """
         Quickselect.
 
-        NW
+        TLE.
 
         Complexity:
             time: O(n)
             memory: O(1)
     """
 
-    def partition_2(self, nums: List[int], l: int, h: int) -> int:
-        pivot = nums[h]
+    def partition_2(self, nums: List[int], low: int, high: int) -> int:
+        pivot = nums[high]
+        l, h = low, high
         
-        print(1, nums, l, h)
+        # print(1, nums, l, h)
+
         while l < h:
             while nums[l] <= pivot and l < h:
                 l += 1
@@ -38,7 +40,10 @@ class Solution:
             if l < h:
                 nums[l], nums[h] = nums[h], nums[l]
 
-        print(2, nums, l, h)
+        nums[l], nums[high] = nums[high], nums[l]
+
+        # print(2, nums, l, h)
+        
         return l
 
     def partition_1(self, nums: List[int], low: int, high: int) -> int:
@@ -73,13 +78,13 @@ class Solution:
         half_len = len(nums) // 2
         is_even = len(nums) % 2 == 0
 
-        print(len(nums), half_len, is_even)
+        # print(len(nums), half_len, is_even)
         # return 0
 
         while low < high:
             pivot = self.partition_2(nums, low, high)
 
-            print(pivot)
+            # print(pivot)
 
             # if (not is_even and pivot == half_len) or \
             #         (is_even and (pivot == half_len or pivot == half_len-1)):
@@ -107,11 +112,16 @@ def main():
     # nums = [2,2,1,1,1,2,2,3]
     # nums = [1,2,3,2,1,2,3,2]
     # nums = [3]
-    # nums = [1,3,1,1,4,1,1,5,1,1,6,2,2]
 
-    nums = [1,7,8,2,3,9,5]
-    nums = [1,8,8,2,3,8,8]
+
+    nums = [1,3,1,1,4,1,1,5,1,1,6,2,2]
+
+    # nums = [1,7,8,2,3,9,5]
+    # nums = [1,8,8,2,3,8,8]
 
     print(nums)
     result = solution.majorityElement(nums)
     print(result)
+
+if __name__ == '__main__':
+    main()
