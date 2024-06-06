@@ -7,7 +7,12 @@ Takeaways:
 
 Related problems:
 
-#matrix
+_0200_number_of_islands
+
+695. Max Area of Island
+https://leetcode.com/problems/max-area-of-island/description/
+
+#matrix, #graph, #bfs
 
 """
 
@@ -53,7 +58,7 @@ class Solution:
 
             # print(queue)
             # print("queue")
-     
+
         return image
 
 def run_tests(solution):

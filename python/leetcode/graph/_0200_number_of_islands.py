@@ -3,7 +3,14 @@ _0200_number_of_islands
 
 Takeaways:
 
-#graph
+Related problems:
+
+_0733_flood_fill
+
+695. Max Area of Island
+https://leetcode.com/problems/max-area-of-island/description/
+
+#graph, #bfs
 
 """
 
