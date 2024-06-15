@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.25)
-project(cpp_coding)
+project(cpp_leetcode)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(cpp_coding _0205_isomorphic_strings.cpp)
+add_executable(cpp_leetcode _0205_isomorphic_strings.cpp)

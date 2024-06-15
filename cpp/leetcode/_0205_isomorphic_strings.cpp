@@ -2,6 +2,8 @@
  * _0205_isomorphic_strings
  * https://leetcode.com/problems/isomorphic-strings
  * 
+ * TODO:
+ * - Implement w/o hashmap with two char map[128] arrays
 */
 
 #include <iostream>

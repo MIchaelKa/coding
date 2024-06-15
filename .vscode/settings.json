@@ -61,7 +61,8 @@
         "chrono": "cpp",
         "compare": "cpp",
         "concepts": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "deque": "cpp"
     },
-    "cmake.sourceDirectory": "/Users/user006/Developer/projects_my/coding/cpp/leetcode"
+    "cmake.sourceDirectory": "/Users/user006/Developer/projects_my/coding/cpp/"
 }
