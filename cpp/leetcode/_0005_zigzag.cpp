@@ -22,6 +22,8 @@ class Solution {
  * Complexity:
  *     time: O(n)
  *     memory: O(n)
+ * 
+ * We can implement similar approach using only std::vector
 */
         
 public:
@@ -41,8 +43,12 @@ public:
             if (dq.size() == currectSize) {
                 dqs.push_back(std::move(dq));
                 dq = deque<char>(); 
-                if (currectSize == numRows && numRows > 2) {
-                    currectSize = numRows - 2;
+                if (currectSize == numRows) {
+                    if (numRows > 2) {
+                        currectSize = numRows - 2;
+                    } else {
+                        dqs.push_back({});
+                    }   
                 } else {
                     currectSize = numRows;
                 }
@@ -55,14 +61,15 @@ public:
 
         std::string result;
         result.reserve(s.size());
-        int inc = numRows > 2 ? 2 : 1;
+        // int inc = numRows > 2 ? 2 : 1;
 
-        for (size_t i = 0; i < dqs.size(); i += inc) {
+        for (size_t i = 0; i < dqs.size(); i += 2) {
             result += dqs[i].front();
             dqs[i].pop_front();
         }
 
         int leftChars = s.size() - result.size();
+        int level = 1;
 
         while (leftChars > 0) {
             for (size_t i = 0; i < dqs.size(); ++i) {
@@ -70,13 +77,15 @@ public:
                     if (i % 2 == 0) {
                         result += dqs[i].front();
                         dqs[i].pop_front();
-                    } else {
+                        --leftChars;
+                    } else if (dqs[i].size() == (numRows - level - 1)) {
                         result += dqs[i].back();
                         dqs[i].pop_back();
+                        --leftChars;
                     }
-                    --leftChars;
                 }
             }
+            ++level;
         }
 
         return result;  
@@ -90,8 +99,9 @@ int main() {
 
     // string s = "PAYPALISHIRING";
     // int numRows = 3;
-    string s = "ABCDE";
-    int numRows = 4;
+
+    string s = "ABCDEFGH";
+    int numRows = 2;
 
     cout << "s: " << s << endl;
     cout << "numRows: " << numRows << endl;
