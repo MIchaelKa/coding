@@ -62,7 +62,11 @@
         "compare": "cpp",
         "concepts": "cpp",
         "algorithm": "cpp",
-        "deque": "cpp"
+        "deque": "cpp",
+        "fstream": "cpp",
+        "iomanip": "cpp",
+        "stack": "cpp",
+        "queue": "cpp"
     },
     "cmake.sourceDirectory": "/Users/user006/Developer/projects_my/coding/cpp/"
 }

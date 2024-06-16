@@ -3,4 +3,4 @@ project(cpp_leetcode)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(cpp_leetcode _0151_reverse_words_in_str.cpp)
+add_executable(cpp_leetcode _0005_zigzag.cpp)
