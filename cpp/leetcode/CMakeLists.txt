@@ -3,4 +3,4 @@ project(cpp_leetcode)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(cpp_leetcode _0005_zigzag.cpp)
+add_executable(cpp_leetcode _2013_detect_squares.cpp)
