@@ -1,9 +1,14 @@
 """
 _662_maximum_width_of_binary_tree
+https://leetcode.com/problems/maximum-width-of-binary-tree/description/
 
 Takeaways:
+- is not None check for int 
+- array for each level
+- bfs for binary tree (see _0199_right_side_view)
 
 Related problems:
+_0199_right_side_view
 
 Tags:
 #tree
@@ -12,7 +17,14 @@ Tags:
 
 from python.common.tree import *
 
-class Solution:
+class Solution_1:
+    """
+        DFS
+
+        Complexity:
+            time: O(n)
+            memory: O(log(n))
+    """
     def widthOfBinaryTree(self, root: Optional[TreeNode]) -> int:
         
         self.intervals = [] 
@@ -36,9 +48,10 @@ class Solution:
                 
         if root.right:
             self.check_interval(level, start_index+1)
-            
-        self.traverse(root.left, level+1, start_index)
-        self.traverse(root.right, level+1, start_index+2)
+        
+        # dfs
+        self.traverse(root.left, level+1, start_index*2)
+        self.traverse(root.right, level+1, start_index*2+2)
         
     def check_interval(self, level: int, index: int):
         
@@ -57,15 +70,68 @@ class Solution:
         else:
             self.intervals[level][1] = index
 
+from collections import deque
+
+class Solution_2:
+    """
+        BFS
+        not works
+
+        Complexity:
+            time: O()
+            memory: O()
+    """
+    def widthOfBinaryTree(self, root: Optional[TreeNode]) -> int:
+
+        queue = deque()
+
+        if root:
+            queue.append(root)
+
+
+        while queue:
+
+            low = None
+            high = None
+
+
+            for i in range(len(queue)):
+                node = queue.popleft()
+
+                if node is None:
+                    continue
+
+                if low is None:
+                    low = i
+                else:
+                    high = i
+
+                queue.append(node.left)
+                queue.append(node.right)
+
+
+            if low is None:
+                continue
+
+            if high is None:
+                high = low
+
+            width = high - low + 1
+
+            print(width)
+
+        return 0
+    
+
 def run_tests(solution):
     print("test passed!")
 
 def main():
 
-    solution = Solution()
+    solution = Solution_1()
 
     array = [1,3,2,5,3,None,9]
-    array = [1,3,2,5,None,None,9,6,None,None,None,None,None,7,None]
+    # array = [1,3,2,5,None,None,9,6,None,None,None,None,None,7,None]
 
     tree = init_tree_from_array_2(array)
     tree.show()
