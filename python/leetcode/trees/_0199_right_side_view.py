@@ -2,6 +2,7 @@
 _0199_right_side_view
 
 Takeaways:
+- BFS for binary tree
 - We can insert and read from a list at the same time if iterating using range(len())
 
 """

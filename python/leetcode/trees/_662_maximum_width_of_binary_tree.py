@@ -3,12 +3,15 @@ _662_maximum_width_of_binary_tree
 https://leetcode.com/problems/maximum-width-of-binary-tree/description/
 
 Takeaways:
-- is not None check for int 
+- (is not None) check for int 
 - array for each level
-- bfs for binary tree (see _0199_right_side_view)
+- *2 for start index on the next level
 
 Related problems:
 _0199_right_side_view
+
+TODO:
+- make bfs solution work
 
 Tags:
 #tree
