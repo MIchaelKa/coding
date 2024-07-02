@@ -2,6 +2,7 @@
 _0345_reverse_vowels
 
 Takeaways:
+- create set from a string -> set('AEIOUaeiou')
 
 """
 
