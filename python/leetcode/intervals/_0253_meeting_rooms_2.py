@@ -14,7 +14,7 @@ Tags:
 
 from typing import List
 
-class Solution:
+class Solution1:
     """
         Naive.
 
@@ -43,12 +43,36 @@ class Solution:
 
         return len(meeting_ends)
 
+import heapq
+
+class Solution:
+    """
+        Heap.
+
+        Complexity:
+            time: O(n*log(n))
+            memory: O(n)
+    """
+    def minMeetingRooms(self, intervals: List[List[int]]) -> int:
+
+        intervals.sort() # key=lambda x: x[0]
+        heap = [intervals[0][1]]
+
+        for i in range(1, len(intervals)):
+            if heap[0] > intervals[i][0]:
+                heapq.heappush(heap, intervals[i][1])
+            else:
+                heapq.heappushpop(heap, intervals[i][1])
+
+        return len(heap)
+
 
 def main():
 
     solution = Solution()
 
-    intervals = [[0,30],[5,10],[15,20]]
+    # intervals = [[0,30],[5,10],[15,20]]
+    intervals = [[7,10],[2,4]]
 
     print(intervals)
     result = solution.minMeetingRooms(intervals)
