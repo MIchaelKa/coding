@@ -78,7 +78,7 @@ from collections import deque
 class Solution_2:
     """
         BFS
-        not works
+        Not works.
 
         Complexity:
             time: O()
