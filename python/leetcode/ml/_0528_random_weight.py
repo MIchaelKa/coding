@@ -51,7 +51,7 @@ class Solution_1:
     
         return index#self.indexes[index]
     
-class Solution:
+class Solution_2:
     """
         Using random.random() once
         Linear search starting from most probable
@@ -76,12 +76,49 @@ class Solution:
                 return index
             index -= 1
         return index
+    
+class Solution:
+    """
+        Using random.random() once
+        Binary search
+    """
+
+    def __init__(self, w: List[int]):
+
+        prefix_sum = [w[0]]
+        for i in range(1, len(w)):
+            prefix_sum.append(prefix_sum[i-1]+w[i])
+
+        self.sum = prefix_sum[-1]
+        self.prefix_sum = prefix_sum
+        
+    def pickIndex(self) -> int:
+        """
+            Complexity:
+                time: O(n*log(n))
+                memory: O(1)
+        """
+
+        r = random.random() * self.sum
+
+        low = 0
+        high = len(self.prefix_sum) - 1
+
+        while low < high:
+            mid = (low + high) // 2
+
+            if r < self.prefix_sum[mid]:
+                high = mid
+            else:
+                low = mid + 1
+
+        return high
 
 def main():
 
     random.seed(2024)
 
-    weigths = [1,2,3]
+    weigths = [1,2,3,4,5]
     # weigths = [1,3,2]
 
     solution = Solution(weigths)
