@@ -17,10 +17,10 @@ Tags:
 from typing import List
 from collections import Counter
 import random
-
-class Solution:
+ 
+class Solution_1:
     """
-        Using random.random()
+        Using random.random() each iteration
         Linear search
         Changing distribution
         TLE
@@ -50,6 +50,32 @@ class Solution:
         # print()
     
         return index#self.indexes[index]
+    
+class Solution:
+    """
+        Using random.random() once
+        Linear search starting from most probable
+    """
+
+    def __init__(self, w: List[int]):
+
+        prefix_sum = [w[0]]
+        for i in range(1, len(w)):
+            prefix_sum.append(prefix_sum[i-1]+w[i])
+
+        self.sum = prefix_sum[-1]
+        self.prefix_sum = prefix_sum
+        
+    def pickIndex(self) -> int:
+
+        r = random.random() * self.sum
+
+        index = len(self.prefix_sum) - 1
+        while index > 0:
+            if r > self.prefix_sum[index-1]:
+                return index
+            index -= 1
+        return index
 
 def main():
 
