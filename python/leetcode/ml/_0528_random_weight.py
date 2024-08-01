@@ -6,9 +6,11 @@ Takeaways:
 Related problems:
 
 TODO:
+- Use prefix sum (cummulative sum)
+- Binary search
 
 Tags:
-#ml
+#ml, #prefix_sum
 
 """
 
@@ -19,13 +21,16 @@ import random
 class Solution:
     """
         Using random.random()
+        Linear search
+        Changing distribution
+        TLE
     """
 
     def __init__(self, w: List[int]):
         self.w = w
-        self.indexes = list(range(len(w)))
-        self.indexes.sort(key=lambda idx: self.w[idx])
-        self.w.sort()
+        # self.indexes = list(range(len(w)))
+        # self.indexes.sort(key=lambda idx: self.w[idx])
+        # self.w.sort()
         self.sum = sum(self.w)
         
         
@@ -35,19 +40,23 @@ class Solution:
 
         index = len(self.w) - 1
         cur_sum = self.sum
-        while index > 0 and r < float(self.w[index]) / cur_sum:
-            # print(r, float(self.w[index]) / self.sum)
+        # print(r, float(self.w[index]) / cur_sum)
+        while index > 0 and r > float(self.w[index]) / cur_sum:
             cur_sum -= self.w[index] # will we keep the same distribution?
             index -= 1
             r = random.random()
+            # print(r, float(self.w[index]) / cur_sum)
+
+        # print()
     
-        return self.indexes[index]
+        return index#self.indexes[index]
 
 def main():
 
     random.seed(2024)
 
-    weigths = [1,3,2]
+    weigths = [1,2,3]
+    # weigths = [1,3,2]
 
     solution = Solution(weigths)
     results = []
