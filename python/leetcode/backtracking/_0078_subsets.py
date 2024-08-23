@@ -13,7 +13,7 @@ Tags:
 
 from typing import List
 
-class Solution:
+class Solution_1:
     """
         Solution.
 
@@ -39,6 +39,32 @@ class Solution:
 
         current_res.append(next)
         self.backtrack(list(available_nums), current_res)
+
+class Solution:
+    """
+        Solution.
+        Use index and do not copy nums.
+
+        Complexity:
+            time: O()
+            memory: O()
+    """
+
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        self.results = []
+        self.backtrack(nums, [], 0)
+        return self.results
+    
+    def backtrack(self, nums: List[int], current_res: List[int], index: int):
+
+        if index == len(nums):
+            self.results.append(current_res)
+            return
+
+        self.backtrack(nums, list(current_res), index+1)
+
+        current_res.append(nums[index])
+        self.backtrack(nums, current_res, index+1)
 
 
 def run_tests(solution):

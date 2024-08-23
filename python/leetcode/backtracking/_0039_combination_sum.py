@@ -1,6 +1,4 @@
 '''
-39. Combination Sum
-
 _0039_combination_sum
 
 Tags:
