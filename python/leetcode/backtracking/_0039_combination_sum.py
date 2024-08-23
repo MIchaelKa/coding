@@ -58,3 +58,6 @@ def main():
     print(candidates, target)
     result = solution.combinationSum(candidates, target)
     print(result)
+
+if __name__ == '__main__':
+    main()
