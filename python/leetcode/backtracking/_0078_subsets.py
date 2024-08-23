@@ -15,7 +15,8 @@ from typing import List
 
 class Solution_1:
     """
-        Solution.
+        Backtracking?
+        Not optimal
 
         Complexity:
             time: O()
@@ -40,14 +41,14 @@ class Solution_1:
         current_res.append(next)
         self.backtrack(list(available_nums), current_res)
 
-class Solution:
+class Solution_2:
     """
-        Solution.
+        Backtracking?
         Use index and do not copy nums.
 
         Complexity:
-            time: O()
-            memory: O()
+            time: O(N * 2^N)
+            memory: O(N)
     """
 
     def subsets(self, nums: List[int]) -> List[List[int]]:
@@ -66,6 +67,31 @@ class Solution:
         current_res.append(nums[index])
         self.backtrack(nums, current_res, index+1)
 
+class Solution:
+    """
+        More like a backtracking.
+
+        Complexity:
+            time: O()
+            memory: O()
+    """
+
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        self.results = []
+        self.backtrack(nums, [], 0)
+        return self.results
+    
+    def backtrack(self, nums: List[int], current_res: List[int], index: int):
+
+        if index == len(nums):
+            self.results.append(list(current_res))
+            return
+
+        self.backtrack(nums, current_res, index+1)
+
+        current_res.append(nums[index])
+        self.backtrack(nums, current_res, index+1)
+        current_res.pop()
 
 def run_tests(solution):
     print("test passed!")
