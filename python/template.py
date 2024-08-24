@@ -3,10 +3,9 @@ _0253_meeting_rooms_2
 
 Takeaways:
 
-Related problems:
-
 TODO:
 
+Related problems:
 Tags:
 
 """

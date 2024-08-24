@@ -2,10 +2,10 @@
 _0416_partition_equal_subset_sum
 
 Takeaways:
-
-Related problems:
+- bottom-up dp with sets
 
 TODO:
+- look in more detaild on top-down dp vs. backtracking
 
 Tags:
 #backtracking, #dp
