@@ -9,12 +9,12 @@ Takeaways:
 
 """
 
-from common.tree import *
+from python.common.tree import *
 from typing import List
 
 class Solution:
     """
-        Solution.
+        DFS.
 
         Complexity:
             time: O(n)
@@ -37,6 +37,36 @@ class Solution:
         self.dfs(root.left, result, depth+1)
         self.dfs(root.right, result, depth+1)
 
+class Solution:
+    """
+        BFS.
+
+        Complexity:
+            time: O(n)
+            memory: O(1)
+    """
+    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        result = []
+        queue = deque()
+
+        if root:
+            queue.append(root)
+
+        while queue:
+
+            level = []
+            for _ in range(len(queue)):
+                node = queue.popleft()
+                level.append(node.val)
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+            
+            result.append(level)
+        
+        return result
+
 
 def run_tests(solution):
     print("test passed!")
@@ -49,8 +79,11 @@ def main():
 
     tree = init_tree_from_array([10,1,3,5,20,15,27,4,2])
     # tree = init_tree_from_array([10])
-    tree = init_tree_from_array([])
+    # tree = init_tree_from_array([])
     # tree.show()
 
     result = solution.levelOrder(tree)
     print(result)
+
+if __name__ == '__main__':
+    main()
