@@ -1,6 +1,4 @@
 '''
-[leetcode] 15. 3Sum
-
 _0015_3_sum
 
 Tags:
@@ -9,7 +7,7 @@ Tags:
 '''
 
 from typing import List
-from common.utils import binary_search
+from python.common.utils import binary_search
 
 class Solution_1:
     """
@@ -110,19 +108,68 @@ class Solution_2:
 
         return final_results
 
+class Solution_3:
+    """
+        Solution.
 
+        Complexity:
+            time: O(n^2)
+            memory: O(1)
+    """
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+
+        nums.sort()
+
+        target = 0
+        result = []
+        current = None
+
+        for i in range(len(nums)):
+
+            if nums[i] == current:
+                continue
+
+            new_target = target - nums[i]
+            current = nums[i]
+
+            low = i+1
+            high = len(nums) - 1
+
+            while low < high:
+                guess = nums[low] + nums[high]
+                if guess == new_target:
+                    result.append([nums[i], nums[low], nums[high]])
+                    high -= 1
+                    low += 1
+                    # improvement from Solution 2
+                    while low < high and nums[low] == nums[low-1]:
+                        low += 1
+
+                elif guess > new_target:
+                    high -= 1
+                else:
+                    low += 1
+
+
+        return result
 
 def main():
 
-    solution = Solution_2()
+    solution = Solution_3()
 
-    # nums = [-1,0,1,2,-1,-4]
+    nums = [-1,0,1,2,-1,-4]
     # nums = [0,1,1]
     # nums = [0,0,0]
     # nums = [1,-1,-1,0]
     # nums = [-1,0,1,2,3,4,5,6,7]
     # nums = [-2,0,1,1,2,3,4,5,6,7]
-    nums = [-2,0,0,2,2]
+    # nums = [-2,0,0,2,2]
+
     answer = solution.threeSum(nums)
 
+    print(nums)
     print(answer)
+
+
+if __name__ == '__main__':
+    main()

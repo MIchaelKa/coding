@@ -1,9 +1,8 @@
 '''
-[leetcode] 167. Two Sum II - Input Array Is Sorted
-
-Your solution must use only constant extra space.
-
 _0167_two_sum_input_array_sorted
+
+[leetcode] 167. Two Sum II - Input Array Is Sorted
+Your solution must use only constant extra space.
 
 Tags:
 #array, two_pointers
