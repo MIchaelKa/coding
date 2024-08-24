@@ -4,13 +4,13 @@ _0057_insert_interval
 #intervals
 
 Hints:
-- update newInterval variable during iteration
+- update newInterval variable during iteration - Done
 
 """
 
 from typing import List
 
-class Solution:
+class Solution_1:
     def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
 
         if len(intervals) == 0:
@@ -54,6 +54,42 @@ class Solution:
             result.append([new_start, newInterval[1]])
      
         return result
+
+class Solution:
+    """
+        Solution.
+
+        Complexity:
+            time: O(n)
+            memory: O(n)
+    """
+    def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
+
+        result = []
+
+        for interval in intervals:
+
+            if newInterval and newInterval[1] < interval[0]:
+                result.append(newInterval)
+                result.append(interval)
+                newInterval = None
+                continue
+
+            if not newInterval or newInterval[0] > interval[1]:
+                result.append(interval)
+                continue
+
+            newInterval = [
+                min(newInterval[0], interval[0]),
+                max(newInterval[1], interval[1])
+            ]
+                
+        if newInterval:
+            result.append(newInterval)
+
+        return result
+
+
 
 def run_tests(solution):
 
@@ -115,8 +151,11 @@ def main():
 
     run_tests(solution)
 
-    intervals = [[3,5],[12,15]]
-    newInterval = [6,6]
+    intervals = [[1,2],[3,5],[6,7],[8,10],[12,16]]
+    newInterval = [4,8]
     result = solution.insert(intervals, newInterval)
     print(intervals, newInterval)
     print(result)
+
+if __name__ == '__main__':
+    main()
