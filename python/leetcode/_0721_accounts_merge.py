@@ -2,18 +2,22 @@
 _0721_accounts_merge
 
 Takeaways:
+- we need to get edges to use union_find
 
 TODO:
 
 Related problems:
+_0684_redundant_connection
+
 Tags:
+#union_find
 
 """
 
 from typing import List
 from collections import deque
 
-class Solution:
+class Solution_1:
     """
         Brute force.
 
@@ -43,6 +47,49 @@ class Solution:
             queue.append([root_name]+sorted(list(root_acc)))
 
         return list(queue)
+    
+
+from collections import defaultdict
+
+class Solution:
+    """
+        DFS.
+
+        Complexity:
+            time: O(m=n*k) total_emails = num_acc * max_size
+            memory: O(m)
+    """
+    def accountsMerge(self, accounts: List[List[str]]) -> List[List[str]]:
+
+        def dfs(start_email, all_emails):
+            if start_email not in visited:
+                visited.add(start_email)
+                all_emails.append(start_email)
+                for e in graph[start_email]:
+                    dfs(e, all_emails)
+
+
+        graph = defaultdict(list)
+
+        for account in accounts:
+            first_email = account[1]
+            for i in range(2, len(account)):
+                graph[first_email].append(account[i])
+                graph[account[i]].append(first_email)
+
+        visited = set()
+        result = []
+
+        for account in accounts:
+            name = account[0]
+            first_email = account[1]
+            if first_email not in visited:
+                new_account = [name]
+                emails = []
+                dfs(first_email, emails)
+                result.append(new_account+sorted(emails))
+
+        return result
 
 def run_tests(solution):
     print("test passed!")
@@ -58,6 +105,14 @@ def main():
         ["John","johnsmith@mail.com","john00@mail.com"],
         ["Mary","mary@mail.com"],
         ["John","johnnybravo@mail.com"]
+    ]
+
+    accounts = [
+        ["A","1","2"],
+        ["B","3","4"],
+        ["A","5","6"],
+        ["A","6","1"],
+        ["B","7","8"],
     ]
 
     print(accounts)
