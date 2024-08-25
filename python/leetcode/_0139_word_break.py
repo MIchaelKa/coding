@@ -46,6 +46,7 @@ class Solution_1:
 class Solution_2:
     """
         DFS.
+        TLE.
 
         Complexity:
             time: O(2^N)
