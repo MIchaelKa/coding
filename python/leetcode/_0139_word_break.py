@@ -13,10 +13,8 @@ TODO:
 
 from typing import List, Set
 
-class Solution:
+class Solution_1:
     """
-        Solution.
-
         DP with memoization
 
         Complexity:
@@ -45,6 +43,56 @@ class Solution:
         dp[i] = True
         return False
 
+class Solution_2:
+    """
+        DFS.
+
+        Complexity:
+            time: O(2^N)
+            memory: O(N)
+    """
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+
+        wordDict = set(wordDict)
+
+        def backtrack(i: int) -> bool:
+
+            if i == len(s):
+                return True
+
+            for j in range(len(s)+1):
+                word = s[i:j]
+                if word in wordDict:
+                    if backtrack(j):
+                        return True
+
+
+            return False
+
+        return backtrack(0)
+    
+
+class Solution:
+    """
+        DP. bottom-up
+
+        Complexity:
+            time: O(N^2)
+            memory: O(N)
+    """
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        
+        wordDict = set(wordDict)
+        dp = [False] * len(s)
+
+        for i in range(len(s)):
+            j = i
+            while j >= 0 and not dp[i]:
+                dp[i] = (s[j:i+1] in wordDict) and (dp[j-1] if j > 0 else True)
+                j -= 1
+
+        return dp[-1]
+
 def run_tests(solution):
     print("test passed!")
 
@@ -57,9 +105,12 @@ def main():
     s = "applepenapple"
     wordDict = ["apple","pen"]
 
-    s = "acdead"
-    wordDict = ["ac","acd","de","eadd"]
+    # s = "acdead"
+    # wordDict = ["ac","acd","de","eadd"]
 
     print(s, wordDict)
     result = solution.wordBreak(s, wordDict)
     print(result)
+
+if __name__ == '__main__':
+    main()
