@@ -5,9 +5,13 @@ https://leetcode.com/problems/find-all-anagrams-in-a-string/editorial/
 Takeaways:
 
 TODO:
+- remove dict copy (curr_count = dict(counter))
 
 Related problems:
-_0076_min_win_substring?
+- _0076_min_win_substring?
+- _187_repeated_dna_sequences
+    - https://leetcode.com/problems/repeated-dna-sequences/description/
+    - - Rabin-Karp
 
 Tags:
 #strings
