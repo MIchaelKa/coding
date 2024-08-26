@@ -3,6 +3,8 @@ _0152_max_product_subarray
 
 Takeaways:
 
+TODO:
+- implement with two DP arrays
 
 Tags:
 #dp
@@ -13,7 +15,7 @@ from typing import List
 
 class Solution:
     """
-        DP + division.
+        DP? + division.
         Not works. TLE.
 
         Complexity:
@@ -49,6 +51,19 @@ class Solution:
             i += 1
 
         return max_prod
+    
+class Solution:
+    """
+        DP.
+
+        Complexity:
+            time: O(n)
+            memory: O(n)
+    """
+    def maxProduct(self, nums: List[int]) -> int:
+
+        # TBD
+        return 0
 
 def run_tests(solution):
     print("test passed!")
