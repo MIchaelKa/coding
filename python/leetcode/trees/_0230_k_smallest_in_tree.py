@@ -3,23 +3,25 @@ _230_k_smallest_in_tree
 
 Takeaways:
 - be careful when use None for int
+- in order traversal
 
-TODO: implement w/o recursion with stack/queue
+TODO:
+- implement w/o recursion with stack/queue - DONE
 
 #tree
 
 """
 
-from common.tree import *
+from python.common.tree import *
 from typing import List
 
-class Solution:
+class Solution_1:
     """
         Solution.
 
         Complexity:
             time: O(n)
-            memory: O(1)
+            memory: O(n)
     """
     def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
         self.k = k
@@ -44,6 +46,34 @@ class Solution:
         
         return None
 
+class Solution:
+    """
+        Solution.
+
+        Complexity:
+            time: O(n)
+            memory: O(n)
+    """
+    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
+
+        stack = []
+        current = root
+
+        while current or stack:
+
+            while current:
+                stack.append(current)
+                current = current.left
+            
+            current = stack.pop()
+
+            k -= 1
+            if k == 0:
+                return current.val
+            
+            current = current.right
+
+        return -1
 
 def run_tests(solution):
     print("test passed!")
@@ -64,3 +94,6 @@ def main():
     tree.show()
     result = solution.kthSmallest(tree, k)
     print(result)
+
+if __name__ == '__main__':
+    main()

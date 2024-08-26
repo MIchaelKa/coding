@@ -3,6 +3,7 @@ _0146_lru_cache
 
 Takeaways:
 - implement helper methods early
+- move_to_end
 
 TODO:
 
