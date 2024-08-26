@@ -1,12 +1,14 @@
 """
 _0076_min_win_substring
-
 https://leetcode.com/problems/minimum-window-substring
 
 Takeaways:
 
-Links:
+Related problems:
 _0567_permutation_in_str
+
+Tags:
+#strings
 
 """
 
