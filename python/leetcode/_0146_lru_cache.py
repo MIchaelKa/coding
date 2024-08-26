@@ -24,7 +24,9 @@ class Node:
 
 
 class LRUCache:
-
+    """
+        Linked list.
+    """
     def __init__(self, capacity: int):
         self.capacity = capacity
         self.cache = {}
@@ -34,7 +36,7 @@ class LRUCache:
     def delete(self, node: Node):
         if node.next and node.prev:
             node.next.prev = node.prev
-            node.prev.next = node.prev
+            node.prev.next = node.next
         elif node.next:
             node.next.prev = None
             self.head = node.next
@@ -53,9 +55,15 @@ class LRUCache:
             self.tail.next = node
             node.prev = self.tail
             node.next = None # need for already added nodes
-            self.tail = self.tail.next
+            self.tail = node
         
     def get(self, key: int) -> int:
+        # node = self.head
+        # while node:
+        #     print(node.key, node.value)
+        #     node = node.next
+        # print()
+
         if key in self.cache:
             node = self.cache[key]
             self.delete(node)
@@ -74,9 +82,9 @@ class LRUCache:
             self.add(node)
             self.cache[key] = node
 
-        if len(self.cache) > self.capacity:
-            self.cache.pop(self.head.key)
-            self.delete(self.head)
+            if len(self.cache) > self.capacity:
+                self.cache.pop(self.head.key)
+                self.delete(self.head)
 
         # for k, v in self.cache.items():
         #     print(k, v.key, v.value)
@@ -118,14 +126,30 @@ def test_2():
     print(cache.get(3)) # return -1
     print(cache.get(4)) # return 3
 
+def test(methods, values):
+    for m, v in zip(methods, values):
+        if m == "LRUCache":
+            cache = LRUCache(v[0])
+        elif m == "put":
+            cache.put(*v)
+        elif m == "get":
+            print(cache.get(v[0]))
+
+    
+
+def test_3():
+    cache = LRUCache(2)
+    cache.put(2, 1) # cache is {2=1}
+    print(cache.get(2)) # return 1
+
 def main():
     # test_1()
     # test_2()
+    # test_3()
 
-    cache = LRUCache(2)
-
-    cache.put(2, 1) # cache is {2=1}
-    print(cache.get(2)) # return 1
+    methods = ["LRUCache","put","put","put","put","get","get","get","get","put","get","get","get","get","get"]
+    values = [[3],[1,1],[2,2],[3,3],[4,4],[4],[3],[2],[1],[5,5],[1],[2],[3],[4],[5]]
+    test(methods, values)
     
 
 
