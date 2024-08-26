@@ -3,6 +3,8 @@ _0152_max_product_subarray
 
 Takeaways:
 
+
+Tags:
 #dp
 
 """
@@ -11,12 +13,12 @@ from typing import List
 
 class Solution:
     """
-        Solution 1.
-        Using division. Naive, not works.
+        DP + division.
+        Not works. TLE.
 
         Complexity:
-            time:
-            memory:
+            time: O(n^2)
+            memory: O(n)
     """
     def maxProduct(self, nums: List[int]) -> int:
 
@@ -25,20 +27,26 @@ class Solution:
         max_prod = nums[0]
 
         for i in range(1, len(nums)):
-            dp[i] = dp[i-1]*nums[i]
+            dp[i] = dp[i-1] * nums[i] if dp[i-1] != 0 else nums[i]
             if dp[i] > max_prod:
                 max_prod = dp[i]
 
-        for i in range(1, len(nums)):
-            for j in range(i, len(nums)):
-                if nums[i] != 0:
-                    dp[j] /= nums[i]
-                else:
-                    # can't handle zero case
-                    dp[j] = nums[i]
+        # print(dp)
 
-                if dp[i] > max_prod:
-                    max_prod = dp[i]
+        i = 0
+        while  i < len(nums):
+
+            while i < len(nums)-1 and nums[i] == 0:
+                i += 1
+
+            j = i+1
+            while j < len(nums) and nums[j] != 0:
+                dp[j] = dp[j] // nums[i]
+                if dp[j] > max_prod:
+                    max_prod = dp[j]
+                j += 1
+            
+            i += 1
 
         return max_prod
 
@@ -51,9 +59,15 @@ def main():
 
     run_tests(solution)
 
-    nums = [2,3,-2,4]
-    nums = [-2,0,-1]
+    # nums = [2,3,-2,4]
+    # nums = [-2,0,-1]
+    # nums = [5,0,8,-2,-1]
+    # nums = [3,-1,4]
+    nums = [0,-3,1,1]
 
     print(nums)
     result = solution.maxProduct(nums)
     print(result)
+
+if __name__ == '__main__':
+    main()
