@@ -8,7 +8,7 @@ TODO:
 Related problems:
 
 Tags:
-#heap
+#heap, #greedy
 
 """
 
