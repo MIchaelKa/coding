@@ -64,7 +64,19 @@ class Solution:
             return 0    
         return 1 + self.depth(n.parent)
         
+class Solution:
+    """
+        Source:
+        https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree-iii/solutions/932499/simple-python-solution-with-o-1-space-complexity/
 
+    """
+    def lowestCommonAncestor(self, p: 'Node', q: 'Node') -> 'Node':
+        p1, p2 = p, q
+        while p1 != p2:
+            p1 = p1.parent if p1.parent else q
+            p2 = p2.parent if p2.parent else p
+            
+        return p1
 
 def run_tests(solution):
     print("test passed!")
