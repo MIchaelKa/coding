@@ -2,10 +2,11 @@ from typing import Optional
 from collections import deque
 
 class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
+    def __init__(self, val=0, left=None, right=None, parent=None):
         self.val = val
         self.left = left
         self.right = right
+        self.parent = parent
         
     def show(self):
         for i in self.items():
@@ -89,7 +90,7 @@ def init_tree_from_array_2(array: list) -> Optional[TreeNode]:
         # print(array[i])
 
         if array[i] != None:
-            node.left = TreeNode(val=array[i])
+            node.left = TreeNode(val=array[i], parent=node)
             queue.append(node.left)
         else:
             queue.append(None)
@@ -98,7 +99,7 @@ def init_tree_from_array_2(array: list) -> Optional[TreeNode]:
         # print(array[i])
 
         if array[i] != None:
-            node.right = TreeNode(val=array[i])
+            node.right = TreeNode(val=array[i], parent=node)
             queue.append(node.right)
         else:
             queue.append(None)
