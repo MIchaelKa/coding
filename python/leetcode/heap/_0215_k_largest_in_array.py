@@ -4,6 +4,13 @@ _0215_k_largest_in_array
 Takeaways:
 - Quickselect
 
+Related problems:
+_0347_top_k_freq_elem
+
+TODO:
+- improve to O(n*log(k)) time complexity
+- O(n*log(k)) is better than O(n + k*log(n)) ?
+
 #array, #heap, #quickselect
 
 """
