@@ -14,7 +14,7 @@ from typing import List
 
 class Solution:
     """
-        Solution.
+        Solution. NW.
 
         Complexity:
             time: O()
